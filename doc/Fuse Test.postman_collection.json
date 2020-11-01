@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "75b146cc-e0fa-4733-8598-0e236abedf3b",
+		"name": "Fuse Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "logout-soap",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:sam=\"http://www.soapui.org/sample/\">\r\n <soapenv:Header/>\r\n <soapenv:Body>\r\n <sam:logout>\r\n <sessionid>21974891784000294</sessionid>\r\n </sam:logout>\r\n </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": "http://localhost:8088/mockServiceSoapBinding"
+			},
+			"response": []
+		},
+		{
+			"name": "login-soap",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:sam=\"http://www.soapui.org/sample/\">\r\n <soapenv:Header/>\r\n <soapenv:Body>\r\n <sam:login>\r\n <username>Login</username>\r\n <password>Login123</password>\r\n </sam:login>\r\n </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": "http://localhost:8088/mockServiceSoapBinding"
+			},
+			"response": []
+		},
+		{
+			"name": "Mock Rest API on MuleSoft Exchange",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/c484da51-46e6-4745-8e69-ff960eff55a2/customer-api/1.0.5/m/customers/R1234567",
+				"description": "/customers/R1234567"
+			},
+			"response": []
+		},
+		{
+			"name": "Get customers by HKID - process API",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/customers/R1234567",
+				"description": "http://localhost:8080/api/customers?hkid=R1234567"
+			},
+			"response": []
+		},
+		{
+			"name": "MuleSoft File API - Get File List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/s3-object-list",
+				"description": "http://hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/s3-object-list\r\n\r\ncurl -L -X GET 'http://hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/s3-records?fileName=test-data.json'\r\n\r\nIf you use /s3-object-list, you'll see what files are available, and their sizes\r\nsuper-large-file.json\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "MuleSoft File API Large Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/s3-records?fileName=test-data.json",
+					"protocol": "http",
+					"host": [
+						"hkt-file-transfer-test-20201029",
+						"jp-e1",
+						"cloudhub",
+						"io"
+					],
+					"path": [
+						"s3-records"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "test-data.json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fuse Get Mule File -- larger file",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "fileName",
+						"value": "test-data.json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/file/stream/s3-records?fileName=test-data.json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"file",
+						"stream",
+						"s3-records"
+					],
+					"query": [
+						{
+							"key": "fileName",
+							"value": "test-data.json"
+						}
+					]
+				},
+				"description": "http://localhost:8080/file/stream/s3-records?fileName=test-data.json"
+			},
+			"response": []
+		},
+		{
+			"name": "Fuse Get Mule File List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "fileName",
+						"value": "test-data.json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/file/stream/s3-object-list"
+			},
+			"response": []
+		},
+		{
+			"name": "Fuse Get Mule File List -- output as file",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "fileName",
+						"value": "test-data.json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "outputFile",
+						"value": "out.txt",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/file/stream/s3-object-list?outputFile=out.txt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"file",
+						"stream",
+						"s3-object-list"
+					],
+					"query": [
+						{
+							"key": "outputFile",
+							"value": "out.txt"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
