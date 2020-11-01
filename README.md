@@ -1,7 +1,7 @@
 # Swagger API Spec
 http://localhost:8080/swagger-ui.html
 
-oc login https://master3.osp.pccw.com:8443 --token=jvqoouD28oW-IItDZCiG600WugkAPUdROmXmQ5U8w9U
+oc login https://openshift-hostname:8443 --token=xxxx
 
 # Spring-Boot Camel QuickStart
 
