@@ -1,21 +1,30 @@
-# Swagger API Spec
-http://localhost:8080/swagger-ui.html
-
-oc login https://openshift-hostname:8443 --token=xxxx
-
 # Spring-Boot Camel QuickStart
 
 This example demonstrates how you can use Apache Camel with Spring Boot.
 
 The quickstart uses Spring Boot to configure a little application that includes a Camel route that triggers a message every 5th second, and routes the message to a log.
 
-### Building
+### 1. Building
 
 The example can be built with
 
     mvn clean install
 
-### Running the example in OpenShift
+### 2. Running the example in local
+
+    mvn spring-boot:run
+
+### 3. Check API Spec in Swagger page
+
+    http://localhost:8080/swagger-ui.html
+    
+### 4. Run test cases by Postman
+Import the test collection file in Postman, check Mule API related test cases.    
+
+### 5. (Optional) Running the example in OpenShift
+Login OpenShift
+
+    oc login https://openshift-hostname:8443 --token=xxxx
 
 It is assumed that:
 - OpenShift platform is already running, if not you can find details how to [Install OpenShift at your site](https://docs.openshift.com/container-platform/3.3/install_config/index.html).
