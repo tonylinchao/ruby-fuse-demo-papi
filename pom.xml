@@ -8,8 +8,8 @@
   <name>Fabric8 :: Quickstarts :: Spring-Boot :: Camel XML</name>
   <description>Ruby fuse process API demo</description>
   <properties>
-    <fuse.version>7.6.0.fuse-760027-redhat-00001</fuse.version>
-    <camel.version>2.21.0.fuse-760027-redhat-00001</camel.version>
+    <fuse.version>7.5.0.fuse-750029-redhat-00002</fuse.version>
+    <camel.version>2.21.0.fuse-750029</camel.version>
     <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>

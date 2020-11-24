@@ -37,7 +37,9 @@ quickstart:
 logging:
   config: classpath:logback.xml
 
-
+appProxy:
+  ip: 10.211.100.102
+  port: 8080
 
 mockapi:
   # MuleSoft Mock Customer Rest API

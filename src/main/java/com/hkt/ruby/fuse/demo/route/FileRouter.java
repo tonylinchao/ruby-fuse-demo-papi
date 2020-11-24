@@ -15,6 +15,12 @@ public class FileRouter extends RouteBuilder {
     @Value("${mockapi.file-stream-api}")
     private String muleFileStreamAPI;
 
+	@Value("${appProxy.ip}")
+	private String proxyServerIp;
+
+	@Value("${appProxy.port}")
+	private String proxyServerPort;
+
 	@Override
 	public void configure() throws Exception {
 		

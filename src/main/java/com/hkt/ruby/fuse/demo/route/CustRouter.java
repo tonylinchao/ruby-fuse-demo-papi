@@ -14,6 +14,12 @@ public class CustRouter extends RouteBuilder {
     @Value("${mockapi.customers-api}")
     private String muleMockCustAPI;
 
+	@Value("${appProxy.ip}")
+	private String proxyServerIp;
+
+	@Value("${appProxy.port}")
+	private String proxyServerPort;
+
 	@Override
 	public void configure() throws Exception {
 		
@@ -21,7 +27,9 @@ public class CustRouter extends RouteBuilder {
 		from("direct:customers").routeId("direct-customers")
 				.setHeader("Accept", constant("application/json"))
 				.toD("https4:" + muleMockCustAPI + "${in.header.hkid}"
-						+ "?bridgeEndpoint=true"
+						+ "?proxyAuthHost=" + proxyServerIp
+						+ "&proxyAuthPort=" + proxyServerPort
+						+ "&bridgeEndpoint=true"
 						+ "&throwExceptionOnFailure=false"
 						+ "&connectTimeout=30000")
 				.convertBodyTo(String.class)
