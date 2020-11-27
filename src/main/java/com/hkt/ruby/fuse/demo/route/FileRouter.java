@@ -28,6 +28,8 @@ public class FileRouter extends RouteBuilder {
 		from("direct:file-stream").routeId("direct-file-stream")
 				.setHeader("Accept", constant("application/json"))
 				.toD("http4:" + muleFileStreamAPI + "${in.header.endpoint}" +"?fileName=${in.header.fileName}"
+						+ "&proxyAuthHost=" + proxyServerIp
+						+ "&proxyAuthPort=" + proxyServerPort
 						+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true"
 						+ "&readTimeout=300000")
 				//.process(Processor)
