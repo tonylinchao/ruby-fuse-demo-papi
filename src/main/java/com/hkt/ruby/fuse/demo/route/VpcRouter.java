@@ -26,13 +26,17 @@ public class VpcRouter extends RouteBuilder {
 	@Value("${appProxy.port}")
 	private String proxyServerPort;
 
+	@Value("${ssl.keystore.path}")
+	private String keystorePath;
+
+	@Value("${ssl.keystore.password}")
+	private String keystorePass;
+
 	@Override
 	public void configure() throws Exception {
 
-
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-		httpComponent.setSslContextParameters(mySslContextParameters());
-
+		httpComponent.setSslContextParameters(muleSslContextParameters());
 		
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:test-vpc").routeId("direct-test-vpc")
@@ -53,11 +57,11 @@ public class VpcRouter extends RouteBuilder {
 				.end();
 	}
 
-	private SSLContextParameters mySslContextParameters(){
+	private SSLContextParameters muleSslContextParameters(){
 
 		KeyStoreParameters store = new KeyStoreParameters();
-		store.setResource("classpath:mule-hkt.p12");
-		store.setPassword("changeit");
+		store.setResource(keystorePath);
+		store.setPassword(keystorePass);
 
 		KeyManagersParameters key = new KeyManagersParameters();
 		key.setKeyPassword("");
@@ -72,7 +76,5 @@ public class VpcRouter extends RouteBuilder {
 
 		return parameters;
 	}
-
-
 
 }

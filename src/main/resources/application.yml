@@ -41,6 +41,11 @@ appProxy:
   ip: 10.211.100.102
   port: 8080
 
+ssl:
+  keystore:
+    path: classpath:mule-hkt.p12
+    password: changeit
+
 mockapi:
   # MuleSoft Mock Customer Rest API
   customers-api: anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/c484da51-46e6-4745-8e69-ff960eff55a2/customer-api/1.0.5/m/customers/
