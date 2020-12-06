@@ -27,9 +27,10 @@ public class CustRouter extends RouteBuilder {
 		from("direct:customers").routeId("direct-customers")
 				.setHeader("Accept", constant("application/json"))
 				.toD("https4:" + muleMockCustAPI + "${in.header.hkid}"
-						+ "?proxyAuthHost=" + proxyServerIp
-						+ "&proxyAuthPort=" + proxyServerPort
-						+ "&bridgeEndpoint=true"
+//						+ "?proxyAuthHost=" + proxyServerIp
+//						+ "&proxyAuthPort=" + proxyServerPort
+//						+ "&bridgeEndpoint=true"
+						+ "?bridgeEndpoint=true"
 						+ "&throwExceptionOnFailure=false"
 						+ "&connectTimeout=30000")
 				.convertBodyTo(String.class)

@@ -38,4 +38,16 @@ public class CustController {
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
 
+	/**
+	 * Test VPC
+	 *
+	 */
+	@GetMapping(path="/")
+	public R testVPC() {
+		Exchange result = fluentProducerTemplate
+				.to("direct:test-vpc").send();
+
+		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+	}
+
 }

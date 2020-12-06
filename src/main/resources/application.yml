@@ -44,5 +44,7 @@ appProxy:
 mockapi:
   # MuleSoft Mock Customer Rest API
   customers-api: anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/c484da51-46e6-4745-8e69-ff960eff55a2/customer-api/1.0.5/m/customers/
+mulesoft:
   # MuleSoft File Streaming API
   file-stream-api: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
+  test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
