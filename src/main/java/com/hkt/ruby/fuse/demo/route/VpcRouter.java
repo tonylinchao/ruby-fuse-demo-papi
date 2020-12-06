@@ -43,9 +43,9 @@ public class VpcRouter extends RouteBuilder {
 				.setHeader("Accept", constant("application/json"))
 				.setHeader("Host", constant("np1.muleamp.hkt.com"))
 				.toD("https4:" + muleTestVPCAPI
-//						+ "?proxyAuthHost=" + proxyServerIp
-//						+ "&proxyAuthPort=" + proxyServerPort
-						+ "?bridgeEndpoint=true"
+						+ "?proxyAuthHost=" + proxyServerIp
+						+ "&proxyAuthPort=" + proxyServerPort
+						+ "&bridgeEndpoint=true"
 						+ "&throwExceptionOnFailure=false"
 						+ "&connectTimeout=30000"
 						+ "&sslContextParameters=#mySslContextParameters"
