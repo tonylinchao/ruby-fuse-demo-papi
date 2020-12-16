@@ -30,12 +30,14 @@ public class CustController {
 	@GetMapping(path="/{hkid}")
 	public R getCustomers(@PathVariable(value="hkid",required=true) String hkid) {
 
-		logger.debug("Customer HKID No is - " + hkid);
-		Exchange result = fluentProducerTemplate
-			    .withHeader("hkid", hkid)
-			    .to("direct:customers").send();
+		return R.data(200, "Hello, this is Tony!");
 
-		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+//		logger.debug("Customer HKID No is - " + hkid);
+//		Exchange result = fluentProducerTemplate
+//			    .withHeader("hkid", hkid)
+//			    .to("direct:customers").send();
+//
+//		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
 
 	/**
@@ -44,10 +46,12 @@ public class CustController {
 	 */
 	@GetMapping(path="/")
 	public R testVPC() {
-		Exchange result = fluentProducerTemplate
-				.to("direct:test-vpc").send();
 
-		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+		return R.data(200, "Enquiry customer list success!");
+//		Exchange result = fluentProducerTemplate
+//				.to("direct:test-vpc").send();
+//
+//		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
 
 }

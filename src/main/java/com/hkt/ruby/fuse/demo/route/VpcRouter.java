@@ -48,7 +48,6 @@ public class VpcRouter extends RouteBuilder {
 						+ "&bridgeEndpoint=true"
 						+ "&throwExceptionOnFailure=false"
 						+ "&connectTimeout=30000"
-						+ "&sslContextParameters=#mySslContextParameters"
 				)
 				.convertBodyTo(String.class)
 				.log("${body}")
