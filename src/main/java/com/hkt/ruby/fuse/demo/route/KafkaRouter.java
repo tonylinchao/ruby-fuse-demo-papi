@@ -28,7 +28,7 @@ public class KafkaRouter extends RouteBuilder {
 
         // Publish event to on-prem kafka
         from("direct:event-producer").routeId("direct-event-producer")
-                .setBody(constant("Message from Camel"))          // Message to send
+                .setBody(constant("${in.header.message}"))          // Message to send
                 .setHeader("kafka.CONTENT_TYPE", constant("Camel")) // Key of the message
                 .toD("kafka: ${in.header.topic}" +
                         "?brokers=" + kafkaServerHost + ":" + kafkaServerPort
@@ -49,14 +49,31 @@ public class KafkaRouter extends RouteBuilder {
 
 
         // Subscribe event to on-prem kafka
+//        from("direct:event-consumer").routeId("direct-event-consumer")
+//                .toD("kafka: ${in.header.topic}" +
+//                        "?brokers=" + kafkaServerHost + ":" + kafkaServerPort
+//                        + "&sslTruststoreLocation=" + keystoreLocation
+//                        + "&sslTruststorePassword=" + keystorePass
+//                        + "&securityProtocol=" + sslProtocol
+//                        + "&groupId=" + kafkaGroupId
+//                 )
+//                .convertBodyTo(String.class)
+//                //.process(customerProcessor)
+//                .log("Message received from Kafka : ${body}")
+//                .log("    on the topic ${headers[kafka.TOPIC]}")
+//                .log("    on the partition ${headers[kafka.PARTITION]}")
+//                .log("    with the offset ${headers[kafka.OFFSET]}")
+//                .log("    with the key ${headers[kafka.KEY]}")
+//                .marshal().json()
+//                .end();
+
+
         from("direct:event-consumer").routeId("direct-event-consumer")
-                .toD("kafka: ${in.header.topic}" +
-                        "?brokers=" + kafkaServerHost + ":" + kafkaServerPort
-                        + "&sslTruststoreLocation=" + keystoreLocation
-                        + "&sslTruststorePassword=" + keystorePass
-                        + "&securityProtocol=" + sslProtocol
-                        + "&groupId=" + kafkaGroupId
-                 )
+                .toD("kafka:ruby-topic?brokers=my-cluster-kafka-bootstrap-ruby-kafka-uat.app3.osp.pccw.com:443"+
+                    "&sslTruststoreLocation=/tmp/client-truststore.jks" +
+                    "&sslTruststorePassword=password" +
+                    "&securityProtocol=SSL" +
+                    "&groupId=group1")
                 .convertBodyTo(String.class)
                 //.process(customerProcessor)
                 .log("Message received from Kafka : ${body}")
@@ -66,8 +83,6 @@ public class KafkaRouter extends RouteBuilder {
                 .log("    with the key ${headers[kafka.KEY]}")
                 .marshal().json()
                 .end();
-
-
     }
 
 }
