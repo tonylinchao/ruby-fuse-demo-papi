@@ -57,13 +57,14 @@ mulesoft:
 
 kafka:
   server:
-    hostname: my-cluster-kafka-bootstrap-ruby-kafka-uat.app3.osp.pccw.com
+    hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
     port: 443
   ssl:
     keystore:
-      location: classpath:client-truststore.jks
+      #location: classpath:client-truststore.jks
+      location: classpath:local-truststore.jks
       password: password
     protocol: SSL
-  groupId: group1
+  groupId: my-topic-consumer-group
 
 

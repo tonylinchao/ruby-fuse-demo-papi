@@ -26,8 +26,12 @@ public class KafkaRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
+        // Publish event via Kafka Bridge
+
+
+
         // Publish event to on-prem kafka
-        from("direct:event-producer").routeId("direct-event-producer")
+        from("direct:publish-event").routeId("direct-publish-event")
                 .setBody(constant("${in.header.message}"))          // Message to send
                 .setHeader("kafka.CONTENT_TYPE", constant("Camel")) // Key of the message
                 .toD("kafka: ${in.header.topic}" +

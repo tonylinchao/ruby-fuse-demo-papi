@@ -1,5 +1,6 @@
 package com.hkt.ruby.fuse.demo.controller;
 
+import com.hkt.ruby.fuse.demo.domain.KafkaProducer;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
@@ -8,6 +9,7 @@ import org.apache.camel.FluentProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,21 +28,38 @@ public class KafkaController {
     /**
      * Publish Event
      *
-     * @param topic Event Topic.
-     * @param message Event body.
+     * @param kafkaproducer Kafka producer message.
      */
-    @GetMapping(path="/producer")
-    public R eventProducer(@RequestParam(value="topic",required=false) String topic,
-                          @RequestParam(value="message",required=false) String message) {
+    @PostMapping(path="/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public R publishEvent(@RequestBody KafkaProducer kafkaproducer) {
 
-		logger.debug("Request to publish event topic: [" + topic + "], message: [" + message +"].");
+		logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
 		Exchange result = fluentProducerTemplate
-			    .withHeader("topic", topic)
-                .withHeader("message", message)
-			    .to("direct:event-producer").send();
+			    .withHeader("topic", kafkaproducer.getTopic())
+                .withHeader("message", kafkaproducer.getMessage())
+			    .to("direct:publish-event").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
+
+    /**
+     * Publish Event
+     *
+     * @param kafkaproducer Kafka producer message.
+     */
+    @PostMapping(path="/publish/{topic}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public R publishEvents(@PathVariable(value="hkid",required=true) String hkid
+            @RequestBody KafkaProducer kafkaproducer) {
+
+        logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
+        Exchange result = fluentProducerTemplate
+                .withHeader("topic", kafkaproducer.getTopic())
+                .withHeader("message", kafkaproducer.getMessage())
+                .to("direct:publish-event").send();
+
+        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+    }
+
 
     /**
      * Publish Event
