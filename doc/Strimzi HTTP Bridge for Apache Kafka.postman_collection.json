@@ -1,0 +1,2679 @@
+{
+	"info": {
+		"_postman_id": "9621512d-42ab-487e-a519-383ac1d4be71",
+		"name": "Strimzi HTTP Bridge for Apache Kafka",
+		"description": "The Strimzi HTTP Bridge for Apache Kafka provides a REST API for integrating HTTP based client applications with a Kafka cluster. You can use the API to create and manage consumers and send and receive records over HTTP rather than the native Kafka protocol. \n\nContact Support:\n Email: cncf-strimzi-dev@lists.cncf.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "consumers/{groupid}",
+			"item": [
+				{
+					"name": "instances/{name}",
+					"item": [
+						{
+							"name": "positions",
+							"item": [
+								{
+									"name": "seek",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.kafka.v2+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"offsets\": [\n        {\n            \"partition\": 0,\n            \"offset\": 1,\n            \"topic\": \"my-topic\"\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"positions"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the subscribed consumer."
+												}
+											]
+										},
+										"description": "Configures a subscribed consumer to fetch offsets from a particular offset the next time it fetches a set of records from a given topic partition. This overrides the default fetch behavior for consumers. You can specify one or more topic partitions."
+									},
+									"response": [
+										{
+											"name": "The specified consumer instance was not found, or the specified consumer instance did not have one of the specified partitions assigned.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"offsets\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0,\n            \"offset\": 15\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1,\n            \"offset\": 42\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										},
+										{
+											"name": "Seek performed successfully.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"offsets\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0,\n            \"offset\": 15\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1,\n            \"offset\": 42\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "seek To Beginning",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.kafka.v2+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"partitions\": [\n        {\n            \"partition\": 0,\n            \"topic\": \"my-topic\"\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/beginning",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"positions",
+												"beginning"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the subscribed consumer."
+												}
+											]
+										},
+										"description": "Configures a subscribed consumer to seek (and subsequently read from) the first offset in one or more given topic partitions."
+									},
+									"response": [
+										{
+											"name": "The specified consumer instance was not found, or the specified consumer instance did not have one of the specified partitions assigned.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/beginning",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions",
+														"beginning"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										},
+										{
+											"name": "Seek to the beginning performed successfully.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/beginning",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions",
+														"beginning"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "seek To End",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.kafka.v2+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"partitions\": [\n        {\n            \"partition\": 0,\n            \"topic\": \"my-topic\"\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/end",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"positions",
+												"end"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the subscribed consumer."
+												}
+											]
+										},
+										"description": "Configures a subscribed consumer to seek (and subsequently read from) the offset at the end of one or more of the given topic partitions."
+									},
+									"response": [
+										{
+											"name": "Seek to the end performed successfully.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/end",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions",
+														"end"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "The specified consumer instance was not found, or the specified consumer instance did not have one of the specified partitions assigned.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/positions/end",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"positions",
+														"end"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "subscription",
+							"item": [
+								{
+									"name": "list Subscriptions",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"subscription"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the consumer to unsubscribe from topics."
+												}
+											]
+										},
+										"description": "Retrieves a list of the topics to which the consumer is subscribed."
+									},
+									"response": [
+										{
+											"name": "List of subscribed topics and partitions.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"topics\": {\n  \"topics\": [\n   \"topic1\",\n   \"topic2\"\n  ]\n },\n \"partitions\": [\n  {\n   \"my-topic1\": [\n    1,\n    2,\n    3\n   ]\n  },\n  {\n   \"my-topic1\": [\n    1,\n    2,\n    3\n   ]\n  }\n ]\n}"
+										},
+										{
+											"name": "The specified consumer instance was not found.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										}
+									]
+								},
+								{
+									"name": "subscribe",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/vnd.kafka.v2+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"topics\": [\n        \"topic\",\n        \"my-topic\"\n    ],\n    \"topic_pattern\": \"([a-zA-Z0-9-_.]{1,200})%([a-zA-Z0-9-_.]{1,200})%%%([a-zA-Z0-9-_.]{1,200})\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"subscription"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the consumer to unsubscribe from topics."
+												}
+											]
+										},
+										"description": "Subscribes a consumer to one or more topics. You can describe the topics to which the consumer will subscribe in a list (of `Topics` type) or as a `topic_pattern` field. Each call replaces the subscriptions for the subscriber."
+									},
+									"response": [
+										{
+											"name": "The specified consumer instance was not found.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"topics\": [\n        \"topic1\",\n        \"topic2\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										},
+										{
+											"name": "A list (of `Topics` type) or a `topic_pattern` must be specified.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"topics\": [\n        \"topic1\",\n        \"topic2\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 422,\n \"message\": \"A list (of Topics type) or a topic_pattern must be specified.\"\n}"
+										},
+										{
+											"name": "Consumer subscribed successfully.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"topics\": [\n        \"topic1\",\n        \"topic2\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Subscriptions to topics, partitions, and patterns are mutually exclusive.",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"topics\": [\n        \"topic1\",\n        \"topic2\"\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 409,\n \"message\": \"Subscriptions to topics, partitions, and patterns are mutually exclusive.\"\n}"
+										}
+									]
+								},
+								{
+									"name": "unsubscribe",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"subscription"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the consumer to unsubscribe from topics."
+												}
+											]
+										},
+										"description": "Unsubscribes a consumer from all topics."
+									},
+									"response": [
+										{
+											"name": "Consumer unsubscribed successfully.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "The specified consumer instance was not found.",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "records",
+							"item": [
+								{
+									"name": "get records",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.kafka.json.v2+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"records"
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the consumer to unsubscribe from topics."
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "The specified consumer instance was not found.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+										},
+										{
+											"name": "List of subscribed topics and partitions.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/subscription",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"subscription"
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"topics\": {\n  \"topics\": [\n   \"topic1\",\n   \"topic2\"\n  ]\n },\n \"partitions\": [\n  {\n   \"my-topic1\": [\n    1,\n    2,\n    3\n   ]\n  },\n  {\n   \"my-topic1\": [\n    1,\n    2,\n    3\n   ]\n  }\n ]\n}"
+										}
+									]
+								},
+								{
+									"name": "poll",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/vnd.kafka.json.v2+json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records?timeout=3000&max_bytes=10240",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"records"
+											],
+											"query": [
+												{
+													"key": "timeout",
+													"value": "3000",
+													"description": "The maximum amount of time, in milliseconds, that the HTTP Bridge spends retrieving records before timing out the request."
+												},
+												{
+													"key": "max_bytes",
+													"value": "10240",
+													"description": "The maximum size, in bytes, of unencoded keys and values that can be included in the response. Otherwise, an error response with code 422 is returned."
+												}
+											],
+											"variable": [
+												{
+													"key": "groupid",
+													"value": "my-topic-consumer-group",
+													"type": "string",
+													"description": "(Required) ID of the consumer group to which the subscribed consumer belongs."
+												},
+												{
+													"key": "name",
+													"value": "my-topic-consumer",
+													"type": "string",
+													"description": "(Required) Name of the subscribed consumer to retrieve records from."
+												}
+											]
+										},
+										"description": "Retrieves records for a subscribed consumer, including message values, topics, and partitions. The request for this operation MUST use the base URL (including the host and port) returned in the response from the `POST` request to `/consumers/{groupid}` that was used to create this consumer."
+									},
+									"response": [
+										{
+											"name": "Response exceeds the maximum number of bytes the consumer can receive",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records?timeout=<integer>&max_bytes=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"records"
+													],
+													"query": [
+														{
+															"key": "timeout",
+															"value": "<integer>"
+														},
+														{
+															"key": "max_bytes",
+															"value": "<integer>"
+														}
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+											"code": 422,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.json.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 37443944,\n \"message\": \"ut in nisi ad\"\n}"
+										},
+										{
+											"name": "The specified consumer instance was not found.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records?timeout=<integer>&max_bytes=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"records"
+													],
+													"query": [
+														{
+															"key": "timeout",
+															"value": "<integer>"
+														},
+														{
+															"key": "max_bytes",
+															"value": "<integer>"
+														}
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.json.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 37443944,\n \"message\": \"ut in nisi ad\"\n}"
+										},
+										{
+											"name": "Poll request executed successfully.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records?timeout=<integer>&max_bytes=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"records"
+													],
+													"query": [
+														{
+															"key": "timeout",
+															"value": "<integer>"
+														},
+														{
+															"key": "max_bytes",
+															"value": "<integer>"
+														}
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.json.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n {\n  \"topic\": \"topic\",\n  \"key\": \"key1\",\n  \"value\": {\n   \"foo\": \"bar\"\n  },\n  \"partition\": 0,\n  \"offset\": 2\n },\n {\n  \"topic\": \"topic\",\n  \"key\": \"key2\",\n  \"value\": [\n   \"foo2\",\n   \"bar2\"\n  ],\n  \"partition\": 1,\n  \"offset\": 3\n }\n]"
+										},
+										{
+											"name": "The `format` used in the consumer creation request does not match the embedded format in the Accept header of this request or the bridge got a message from the topic which is not JSON encoded.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/records?timeout=<integer>&max_bytes=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"consumers",
+														":groupid",
+														"instances",
+														":name",
+														"records"
+													],
+													"query": [
+														{
+															"key": "timeout",
+															"value": "<integer>"
+														},
+														{
+															"key": "max_bytes",
+															"value": "<integer>"
+														}
+													],
+													"variable": [
+														{
+															"key": "groupid"
+														},
+														{
+															"key": "name"
+														}
+													]
+												}
+											},
+											"status": "Not Acceptable",
+											"code": 406,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.json.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 37443944,\n \"message\": \"ut in nisi ad\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "delete Consumer",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid/instances/:name",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid",
+										"instances",
+										":name"
+									],
+									"variable": [
+										{
+											"key": "groupid",
+											"value": "my-topic-consumer-group",
+											"type": "string",
+											"description": "(Required) ID of the consumer group to which the consumer belongs."
+										},
+										{
+											"key": "name",
+											"value": "my-topic-consumer",
+											"type": "string",
+											"description": "(Required) Name of the consumer to delete."
+										}
+									]
+								},
+								"description": "Deletes a specified consumer instance. The request for this operation MUST use the base URL (including the host and port) returned in the response from the `POST` request to `/consumers/{groupid}` that was used to create this consumer."
+							},
+							"response": [
+								{
+									"name": "The specified consumer instance was not found.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+								},
+								{
+									"name": "Consumer removed successfully.",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "assign",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.kafka.v2+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"partitions\": [\n        {\n            \"partition\": 0,\n            \"topic\": \"my-topic\"\n        },\n        {\n            \"partition\": 0,\n            \"topic\": \"topic\"\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/assignments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid",
+										"instances",
+										":name",
+										"assignments"
+									],
+									"variable": [
+										{
+											"key": "groupid",
+											"value": "my-topic-consumer-group",
+											"type": "string",
+											"description": "(Required) ID of the consumer group to which the consumer belongs."
+										},
+										{
+											"key": "name",
+											"value": "my-topic-consumer",
+											"type": "string",
+											"description": "(Required) Name of the consumer to assign topic partitions to."
+										}
+									]
+								},
+								"description": "Assigns one or more topic partitions to a consumer."
+							},
+							"response": [
+								{
+									"name": "Subscriptions to topics, partitions, and patterns are mutually exclusive.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/assignments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"assignments"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "Conflict",
+									"code": 409,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 409,\n \"message\": \"Subscriptions to topics, partitions, and patterns are mutually exclusive.\"\n}"
+								},
+								{
+									"name": "Partitions assigned successfully.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/assignments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"assignments"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "The specified consumer instance was not found.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"partitions\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/assignments",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"assignments"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+								}
+							]
+						},
+						{
+							"name": "commit",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.kafka.v2+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"offsets\": [\n        {\n            \"partition\": 0,\n            \"offset\": 1,\n            \"topic\": \"my-topic\"\n        },\n        {\n            \"partition\": 0,\n            \"offset\": 1,\n            \"topic\": \"topic\"\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/offsets",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid",
+										"instances",
+										":name",
+										"offsets"
+									],
+									"variable": [
+										{
+											"key": "groupid",
+											"value": "my-topic-consumer-group",
+											"type": "string",
+											"description": "(Required) ID of the consumer group to which the consumer belongs."
+										},
+										{
+											"key": "name",
+											"value": "my-topic-consumer",
+											"type": "string",
+											"description": "(Required) Name of the consumer."
+										}
+									]
+								},
+								"description": "Commits a list of consumer offsets. To commit offsets for all records fetched by the consumer, leave the request body empty."
+							},
+							"response": [
+								{
+									"name": "The specified consumer instance was not found.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"offsets\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0,\n            \"offset\": 15\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1,\n            \"offset\": 42\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/offsets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"offsets"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 404,\n \"message\": \"The specified consumer instance was not found.\"\n}"
+								},
+								{
+									"name": "Commit made successfully.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"offsets\": [\n        {\n            \"topic\": \"topic\",\n            \"partition\": 0,\n            \"offset\": 15\n        },\n        {\n            \"topic\": \"topic\",\n            \"partition\": 1,\n            \"offset\": 42\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/consumers/:groupid/instances/:name/offsets",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"consumers",
+												":groupid",
+												"instances",
+												":name",
+												"offsets"
+											],
+											"variable": [
+												{
+													"key": "groupid"
+												},
+												{
+													"key": "name"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "create Consumer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/vnd.kafka.v2+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"my-topic-consumer\",\n    \"format\": \"json\", \n    \"auto.offset.reset\": \"earliest\",\n    \"fetch.min.bytes\": 512,\n    \"consumer.request.timeout.ms\": 30000,\n    \"enable.auto.commit\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/consumers/:groupid",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"consumers",
+								":groupid"
+							],
+							"variable": [
+								{
+									"key": "groupid",
+									"value": "my-topic-consumer-group",
+									"type": "string",
+									"description": "(Required) ID of the consumer group in which to create the consumer."
+								}
+							]
+						},
+						"description": "Creates a consumer instance in the given consumer group. You can optionally specify a consumer name and supported configuration options. It returns a base URI which must be used to construct URLs for subsequent requests against this consumer instance."
+					},
+					"response": [
+						{
+							"name": "A consumer instance with the specified name already exists in the Kafka Bridge.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"consumer1\",\n    \"format\": \"binary\",\n    \"auto.offset.reset\": \"earliest\",\n    \"enable.auto.commit\": false,\n    \"fetch.min.bytes\": 512,\n    \"consumer.request.timeout.ms\": 30000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid"
+									],
+									"variable": [
+										{
+											"key": "groupid"
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.kafka.v2+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"error_code\": 409,\n \"message\": \"A consumer instance with the specified name already exists in the Kafka Bridge.\"\n}"
+						},
+						{
+							"name": "One or more consumer configuration options have invalid values.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"consumer1\",\n    \"format\": \"binary\",\n    \"auto.offset.reset\": \"earliest\",\n    \"enable.auto.commit\": false,\n    \"fetch.min.bytes\": 512,\n    \"consumer.request.timeout.ms\": 30000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid"
+									],
+									"variable": [
+										{
+											"key": "groupid"
+										}
+									]
+								}
+							},
+							"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+							"code": 422,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.kafka.v2+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"error_code\": 422,\n \"message\": \"One or more consumer configuration options have invalid values.\"\n}"
+						},
+						{
+							"name": "Consumer created successfully.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"consumer1\",\n    \"format\": \"binary\",\n    \"auto.offset.reset\": \"earliest\",\n    \"enable.auto.commit\": false,\n    \"fetch.min.bytes\": 512,\n    \"consumer.request.timeout.ms\": 30000\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/consumers/:groupid",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"consumers",
+										":groupid"
+									],
+									"variable": [
+										{
+											"key": "groupid"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.kafka.v2+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"instance_id\": \"consumer1\",\n \"base_uri\": \"http://localhost:8080/consumers/my-group/instances/consumer1\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "topics",
+			"item": [
+				{
+					"name": "{topicname}",
+					"item": [
+						{
+							"name": "partitions",
+							"item": [
+								{
+									"name": "{partitionid}",
+									"item": [
+										{
+											"name": "get Partition",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"topics",
+														":topicname",
+														"partitions",
+														":partitionid"
+													],
+													"variable": [
+														{
+															"key": "topicname",
+															"value": "my-topic",
+															"type": "string",
+															"description": "(Required) Name of the topic to send records to or retrieve metadata from."
+														},
+														{
+															"key": "partitionid",
+															"value": "0",
+															"type": "string",
+															"description": "(Required) ID of the partition to send records to or retrieve metadata from."
+														}
+													]
+												},
+												"description": "Retrieves partition metadata for the topic partition."
+											},
+											"response": [
+												{
+													"name": "Partition metadata",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"topics",
+																":topicname",
+																"partitions",
+																":partitionid"
+															],
+															"variable": [
+																{
+																	"key": "topicname"
+																},
+																{
+																	"key": "partitionid"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/vnd.kafka.v2+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"partition\": 1,\n \"leader\": 1,\n \"replicas\": [\n  {\n   \"broker\": 1,\n   \"leader\": true,\n   \"in_sync\": true\n  },\n  {\n   \"broker\": 2,\n   \"leader\": false,\n   \"in_sync\": true\n  }\n ]\n}"
+												},
+												{
+													"name": "The specified topic partition was not found.",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"topics",
+																":topicname",
+																"partitions",
+																":partitionid"
+															],
+															"variable": [
+																{
+																	"key": "topicname"
+																},
+																{
+																	"key": "partitionid"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/vnd.kafka.v2+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"error_code\": 404,\n \"message\": \"The specified topic partition was not found.\"\n}"
+												}
+											]
+										},
+										{
+											"name": "send To Partition",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/vnd.kafka.json.v2+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n    \"records\": [\n        {\n            \"value\": \"<object>\",\n            \"key\": \"<object>\"\n        },\n        {\n            \"value\": \"<object>\",\n            \"key\": \"<object>\"\n        }\n    ]\n}"
+												},
+												"url": {
+													"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"topics",
+														":topicname",
+														"partitions",
+														":partitionid"
+													],
+													"variable": [
+														{
+															"key": "topicname",
+															"value": "my-topic",
+															"type": "string",
+															"description": "(Required) Name of the topic to send records to or retrieve metadata from."
+														},
+														{
+															"key": "partitionid",
+															"value": "0",
+															"type": "string",
+															"description": "(Required) ID of the partition to send records to or retrieve metadata from."
+														}
+													]
+												},
+												"description": "Sends one or more records to a given topic partition, optionally specifying a key."
+											},
+											"response": [
+												{
+													"name": "Records sent successfully.",
+													"originalRequest": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n    \"records\": [\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        },\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        }\n    ]\n}"
+														},
+														"url": {
+															"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"topics",
+																":topicname",
+																"partitions",
+																":partitionid"
+															],
+															"variable": [
+																{
+																	"key": "topicname"
+																},
+																{
+																	"key": "partitionid"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/vnd.kafka.v2+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"offsets\": [\n  {\n   \"partition\": 2,\n   \"offset\": 0\n  },\n  {\n   \"partition\": 1,\n   \"offset\": 1\n  },\n  {\n   \"partition\": 2,\n   \"offset\": 2\n  }\n ]\n}"
+												},
+												{
+													"name": "The specified topic partition was not found.",
+													"originalRequest": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n    \"records\": [\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        },\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        }\n    ]\n}"
+														},
+														"url": {
+															"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"topics",
+																":topicname",
+																"partitions",
+																":partitionid"
+															],
+															"variable": [
+																{
+																	"key": "topicname"
+																},
+																{
+																	"key": "partitionid"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/vnd.kafka.v2+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"error_code\": 404,\n \"message\": \"The specified topic partition was not found.\"\n}"
+												},
+												{
+													"name": "The record is not valid.",
+													"originalRequest": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n    \"records\": [\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        },\n        {\n            \"value\": {\n                \"v\": 128\n            },\n            \"key\": {\n                \"k\": \"key\"\n            }\n        }\n    ]\n}"
+														},
+														"url": {
+															"raw": "{{baseUrl}}/topics/:topicname/partitions/:partitionid",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"topics",
+																":topicname",
+																"partitions",
+																":partitionid"
+															],
+															"variable": [
+																{
+																	"key": "topicname"
+																},
+																{
+																	"key": "partitionid"
+																}
+															]
+														}
+													},
+													"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+													"code": 422,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/vnd.kafka.v2+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"error_code\": 422,\n \"message\": \"The record is not valid.\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "list Partitions",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/topics/:topicname/partitions",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topics",
+												":topicname",
+												"partitions"
+											],
+											"variable": [
+												{
+													"key": "topicname",
+													"value": "my-topic",
+													"type": "string",
+													"description": "(Required) Name of the topic to send records to or retrieve metadata from."
+												}
+											]
+										},
+										"description": "Retrieves a list of partitions for the topic."
+									},
+									"response": [
+										{
+											"name": "List of partitions",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/topics/:topicname/partitions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"topics",
+														":topicname",
+														"partitions"
+													],
+													"variable": [
+														{
+															"key": "topicname"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n {\n  \"partition\": 1,\n  \"leader\": 1,\n  \"replicas\": [\n   {\n    \"broker\": 1,\n    \"leader\": true,\n    \"in_sync\": true\n   },\n   {\n    \"broker\": 2,\n    \"leader\": false,\n    \"in_sync\": true\n   }\n  ]\n },\n {\n  \"partition\": 2,\n  \"leader\": 2,\n  \"replicas\": [\n   {\n    \"broker\": 1,\n    \"leader\": false,\n    \"in_sync\": true\n   },\n   {\n    \"broker\": 2,\n    \"leader\": true,\n    \"in_sync\": true\n   }\n  ]\n }\n]"
+										},
+										{
+											"name": "The specified topic was not found.",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/topics/:topicname/partitions",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"topics",
+														":topicname",
+														"partitions"
+													],
+													"variable": [
+														{
+															"key": "topicname"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/vnd.kafka.v2+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"error_code\": 404,\n \"message\": \"The specified topic was not found.\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get Topic",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/topics/:topicname",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topics",
+										":topicname"
+									],
+									"variable": [
+										{
+											"key": "topicname",
+											"value": "my-topic",
+											"type": "string",
+											"description": "(Required) Name of the topic to send records to or retrieve metadata from."
+										}
+									]
+								},
+								"description": "Retrieves the metadata about a given topic."
+							},
+							"response": [
+								{
+									"name": "Topic metadata",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/topics/:topicname",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topics",
+												":topicname"
+											],
+											"variable": [
+												{
+													"key": "topicname"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"name\": \"topic\",\n \"offset\": 2,\n \"configs\": {\n  \"cleanup.policy\": \"compact\"\n },\n \"partitions\": [\n  {\n   \"partition\": 1,\n   \"leader\": 1,\n   \"replicas\": [\n    {\n     \"broker\": 1,\n     \"leader\": true,\n     \"in_sync\": true\n    },\n    {\n     \"broker\": 2,\n     \"leader\": false,\n     \"in_sync\": true\n    }\n   ]\n  },\n  {\n   \"partition\": 2,\n   \"leader\": 2,\n   \"replicas\": [\n    {\n     \"broker\": 1,\n     \"leader\": false,\n     \"in_sync\": true\n    },\n    {\n     \"broker\": 2,\n     \"leader\": true,\n     \"in_sync\": true\n    }\n   ]\n  }\n ]\n}"
+								}
+							]
+						},
+						{
+							"name": "send",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/vnd.kafka.json.v2+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"records\": [\n        {\n            \"value\": \"aGVhZGVyLTE=\",\n            \"partition\": 0,\n            \"key\": \"key-1\",\n            \"headers\": [\n                {\n                    \"value\": \"aGVhZGVyLTE=\",\n                    \"key\": \"header-1\"\n                },\n                {\n                    \"value\": \"aGVhZGVyLTI=\",\n                    \"key\": \"header-2\"\n                }\n            ]\n        },\n        {\n            \"value\": \"value1-2\",\n            \"partition\": 0,\n            \"key\": \"key-2\",\n            \"headers\": [\n                {\n                    \"value\": \"aGVhZGVyLTE=\",\n                    \"key\": \"header-1\"\n                },\n                {\n                    \"value\": \"aGVhZGVyLTI=\",\n                    \"key\": \"header-2\"\n                }\n            ]\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/topics/:topicname",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topics",
+										":topicname"
+									],
+									"variable": [
+										{
+											"key": "topicname",
+											"value": "my-topic",
+											"type": "string",
+											"description": "(Required) Name of the topic to send records to or retrieve metadata from."
+										}
+									]
+								},
+								"description": "Sends one or more records to a given topic, optionally specifying a partition, key, or both."
+							},
+							"response": [
+								{
+									"name": "The specified topic was not found.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"records\": [\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        },\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/topics/:topicname",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topics",
+												":topicname"
+											],
+											"variable": [
+												{
+													"key": "topicname"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 404,\n \"message\": \"The specified topic was not found.\"\n}"
+								},
+								{
+									"name": "Records sent successfully.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"records\": [\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        },\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/topics/:topicname",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topics",
+												":topicname"
+											],
+											"variable": [
+												{
+													"key": "topicname"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"offsets\": [\n  {\n   \"partition\": 2,\n   \"offset\": 0\n  },\n  {\n   \"partition\": 1,\n   \"offset\": 1\n  },\n  {\n   \"partition\": 2,\n   \"offset\": 2\n  }\n ]\n}"
+								},
+								{
+									"name": "The record list is not valid.",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"records\": [\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        },\n        {\n            \"value\": \"<object>\",\n            \"partition\": \"<integer>\",\n            \"key\": \"<object>\",\n            \"headers\": [\n                {\n                    \"key\": \"key1\",\n                    \"value\": \"dmFsdWUx\"\n                },\n                {\n                    \"key\": \"key2\",\n                    \"value\": \"dmFsdWUy\"\n                }\n            ]\n        }\n    ]\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/topics/:topicname",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"topics",
+												":topicname"
+											],
+											"variable": [
+												{
+													"key": "topicname"
+												}
+											]
+										}
+									},
+									"status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+									"code": 422,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/vnd.kafka.v2+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"error_code\": 422,\n \"message\": \"The record list contains invalid records.\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "list Topics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/topics",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"topics"
+							]
+						},
+						"description": "Retrieves a list of all topics."
+					},
+					"response": [
+						{
+							"name": "List of topics.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/topics",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"topics"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.kafka.v2+json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n \"topic1\",\n \"topic2\"\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "healthy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/healthy",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"healthy"
+					]
+				},
+				"description": "Check if the bridge is running. This does not necessarily imply that it is ready to accept requests."
+			},
+			"response": [
+				{
+					"name": "The bridge is healthy",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/healthy",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"healthy"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "ready",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/ready",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"ready"
+					]
+				},
+				"description": "Check if the bridge is ready and can accept requests."
+			},
+			"response": [
+				{
+					"name": "The bridge is ready",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ready",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ready"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain"
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "openapi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/openapi",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"openapi"
+					]
+				},
+				"description": "Retrieves the OpenAPI v2 specification in JSON format."
+			},
+			"response": [
+				{
+					"name": "OpenAPI v2 specification in JSON format retrieved successfully.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/openapi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"openapi"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "\"ullamco mollit voluptate amet laboris\""
+				}
+			]
+		},
+		{
+			"name": "info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Retrieves information about the Kafka Bridge instance, in JSON format."
+			},
+			"response": [
+				{
+					"name": "Information about Kafka Bridge instance.",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n \"bridge_version\": \"0.16.0\"\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://bridge.swagger.io/",
+			"type": "string"
+		}
+	]
+}
