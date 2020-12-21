@@ -25,6 +25,25 @@ public class KafkaController {
     @Autowired
     private FluentProducerTemplate fluentProducerTemplate;
 
+
+    /**
+     * Publish Event
+     *
+     * @param kafkaproducer Kafka producer message.
+     */
+    @PostMapping(path="/schema", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public R avroSchema(@RequestBody KafkaProducer kafkaproducer) {
+
+        logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
+        Exchange result = fluentProducerTemplate
+                .withHeader("topic", kafkaproducer.getTopic())
+                .withHeader("message", kafkaproducer.getMessage())
+                .to("direct:publish-event").send();
+
+        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+    }
+
+
     /**
      * Publish Event
      *
@@ -45,28 +64,9 @@ public class KafkaController {
     /**
      * Publish Event
      *
-     * @param kafkaproducer Kafka producer message.
-     */
-    @PostMapping(path="/publish/{topic}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public R publishEvents(@PathVariable(value="hkid",required=true) String hkid
-            @RequestBody KafkaProducer kafkaproducer) {
-
-        logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
-        Exchange result = fluentProducerTemplate
-                .withHeader("topic", kafkaproducer.getTopic())
-                .withHeader("message", kafkaproducer.getMessage())
-                .to("direct:publish-event").send();
-
-        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
-    }
-
-
-    /**
-     * Publish Event
-     *
      * @param topic Event Topic.
      */
-    @GetMapping(path="/consumer")
+    @GetMapping(path="/subscribe/{topic}")
     public R eventConsumer(@RequestParam(value="topic",required=false) String topic) {
 
         logger.debug("Request to sublic event topic: [" + topic + "].");
