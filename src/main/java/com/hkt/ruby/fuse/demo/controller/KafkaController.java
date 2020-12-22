@@ -1,6 +1,8 @@
 package com.hkt.ruby.fuse.demo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hkt.ruby.fuse.demo.domain.EventRecords;
+import com.hkt.ruby.fuse.demo.route.KafkaRouter;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
@@ -26,37 +28,44 @@ public class KafkaController {
     private FluentProducerTemplate fluentProducerTemplate;
 
     /**
-     * Publish Event
+     * Publish Event via Kafka Rest Bridge
      *
      * @param topic Kafka topic
      * @param records Kafka event records.
      */
     @PostMapping(path="/produce/topics/{topic}")
-    public R publishEvents(@RequestParam(value="topic",required=false) String topic,
-                          @RequestBody EventRecords records) {
+    public R produceEvents(@PathVariable(value="topic",required=true) String topic,
+                          @RequestBody EventRecords records) throws Exception {
 
 		logger.debug("Request to publish event topic: [" + topic + "], records: [" + records.toString() +"].");
+
+		ObjectMapper objectMapper = new ObjectMapper();
 		Exchange result = fluentProducerTemplate
 			    .withHeader("topic", topic)
-                .withBody(records)
-			    .to("direct:publish-event").send();
+                .withBody(objectMapper.writeValueAsString(records))
+			    .to("direct:produce-events").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
 
     /**
-     * Publish Event
+     * Subscribe Event via Kafka Rest Bridge
      *
-     * @param topic Event Topic.
+     * @param topic Kafka topic
      */
-    @GetMapping(path="/consume")
-    public R eventConsumer(@RequestParam(value="topic",required=false) String topic) {
+    @PostMapping(path="/consume/topics/{topic}")
+    public R consumeEvents(@PathVariable(value="topic",required=true) String topic,
+                           @RequestParam(value="timeout",required=false) String timeout,
+                           @RequestParam(value="maxBytes",required=false) String maxBytes) throws Exception {
 
-        logger.debug("Request to sublic event topic: [" + topic + "].");
+        logger.debug("Request to publish event topic: [" + topic + "].");
+
+        ObjectMapper objectMapper = new ObjectMapper();
         Exchange result = fluentProducerTemplate
                 .withHeader("topic", topic)
-                .to("direct:event-consumer").send();
+                .to("direct:consume-events").send();
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
+
 }

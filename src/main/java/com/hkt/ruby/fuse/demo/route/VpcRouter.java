@@ -1,11 +1,8 @@
 package com.hkt.ruby.fuse.demo.route;
 
+import com.hkt.ruby.fuse.demo.utils.SSLUtil;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http4.HttpComponent;
-import org.apache.camel.util.jsse.KeyManagersParameters;
-import org.apache.camel.util.jsse.KeyStoreParameters;
-import org.apache.camel.util.jsse.SSLContextParameters;
-import org.apache.camel.util.jsse.TrustManagersParameters;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +33,7 @@ public class VpcRouter extends RouteBuilder {
 	public void configure() throws Exception {
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-		httpComponent.setSslContextParameters(muleSslContextParameters());
+		httpComponent.setSslContextParameters(SSLUtil.sslContextParameters(keystorePath, keystorePass));
 		
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:test-vpc").routeId("direct-test-vpc")
@@ -54,26 +51,6 @@ public class VpcRouter extends RouteBuilder {
 				//.process(customerProcessor)
 				.marshal().json()
 				.end();
-	}
-
-	private SSLContextParameters muleSslContextParameters(){
-
-		KeyStoreParameters store = new KeyStoreParameters();
-		store.setResource(keystorePath);
-		store.setPassword(keystorePass);
-
-		KeyManagersParameters key = new KeyManagersParameters();
-		key.setKeyPassword("");
-		key.setKeyStore(store);
-
-		TrustManagersParameters trust = new TrustManagersParameters();
-		trust.setKeyStore(store);
-
-		SSLContextParameters parameters = new SSLContextParameters();
-		parameters.setTrustManagers(trust);
-		parameters.setKeyManagers(key);
-
-		return parameters;
 	}
 
 }

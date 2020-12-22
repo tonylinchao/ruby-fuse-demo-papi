@@ -1,3 +1,10 @@
+#active
+spring:
+  profiles:
+    active: dev
+  main:
+    web-application-type: none
+
 server:
   port: 8080
   # lets listen on all ports to ensure we can be invoked from the pod IP
@@ -19,10 +26,6 @@ camel:
     name: FuseRest
     main-run-controller: true
 
-spring:
-  main:
-    web-application-type: none
-
 # disable all management enpoints except health
 endpoints:
   enabled: false
@@ -36,44 +39,3 @@ quickstart:
 
 logging:
   config: classpath:logback.xml
-
-appProxy:
-  ip: app-proxy.pccw.com #10.211.100.102
-  port: 8080
-
-ssl:
-  keystore:
-    path: classpath:mule-hkt.p12
-    password: changeit
-
-mockapi:
-  # MuleSoft Mock Customer Rest API
-  customers-api: anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/c484da51-46e6-4745-8e69-ff960eff55a2/sample-customer-process-api/1.0.0/m/customers/
-
-mulesoft:
-  # MuleSoft File Streaming API
-  file-stream-api: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
-  test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
-
-kafka:
-  bridge:
-    baseurl: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
-    consumer:
-      groupid: my-topic-consumer-group
-      name: my-topic-consumer
-    topics:
-      topicname: my-topic
-      partitionid: 0
-
-  server:
-    hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
-    port: 443
-  ssl:
-    keystore:
-      #location: classpath:client-truststore.jks
-      location: classpath:local-truststore.jks
-      password: password
-    protocol: SSL
-  groupId: my-topic-consumer-group
-
-

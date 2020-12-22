@@ -46,12 +46,12 @@ public class CustController {
 	 */
 	@GetMapping(path="/")
 	public R testVPC() {
+//		return R.data(200, "Enquiry customer list success!");
 
-		return R.data(200, "Enquiry customer list success!");
-//		Exchange result = fluentProducerTemplate
-//				.to("direct:test-vpc").send();
-//
-//		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+		Exchange result = fluentProducerTemplate
+				.to("direct:test-vpc").send();
+
+		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
 
 }

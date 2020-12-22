@@ -7,7 +7,6 @@ public class EventRecord {
     private String key;
     private String value;
     private int partition;
-    private List<EventHeader> headers;
 
     public String getKey() {
         return key;
@@ -33,13 +32,6 @@ public class EventRecord {
         this.partition = partition;
     }
 
-    public List<EventHeader> getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(List<EventHeader> headers) {
-        this.headers = headers;
-    }
 
     @Override
     public String toString() {
@@ -47,7 +39,6 @@ public class EventRecord {
                 "key='" + key + '\'' +
                 ", value='" + value + '\'' +
                 ", partition=" + partition +
-                ", headers=" + headers +
                 '}';
     }
 }

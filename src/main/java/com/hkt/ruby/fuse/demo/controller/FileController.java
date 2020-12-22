@@ -38,7 +38,7 @@ public class FileController {
                 .withHeader("endpoint", endpoint)
                 .withHeader("fileName", fileName)
                 .withHeader("outputFile", outputFile)
-                .to("direct:file-stream").send();
+                .to("direct:produce-event").send();
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
