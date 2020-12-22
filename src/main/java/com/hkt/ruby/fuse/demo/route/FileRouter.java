@@ -1,5 +1,6 @@
 package com.hkt.ruby.fuse.demo.route;
 
+import com.hkt.ruby.fuse.demo.constant.KafkaConstants;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,10 +27,10 @@ public class FileRouter extends RouteBuilder {
 		
 		// Call Mule API to get file in streaming
 		from("direct:file-stream").routeId("direct-file-stream")
-				.setHeader("Accept", constant("application/json"))
+				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
 				.toD("http4:" + muleFileStreamAPI + "${in.header.endpoint}" +"?fileName=${in.header.fileName}"
-						+ "&proxyAuthHost=" + proxyServerIp
-						+ "&proxyAuthPort=" + proxyServerPort
+//						+ "&proxyAuthHost=" + proxyServerIp
+//						+ "&proxyAuthPort=" + proxyServerPort
 						+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true"
 						+ "&readTimeout=300000")
 				//.process(Processor)

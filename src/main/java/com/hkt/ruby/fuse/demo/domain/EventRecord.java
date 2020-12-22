@@ -1,7 +1,5 @@
 package com.hkt.ruby.fuse.demo.domain;
 
-import java.util.List;
-
 public class EventRecord {
 
     private String key;

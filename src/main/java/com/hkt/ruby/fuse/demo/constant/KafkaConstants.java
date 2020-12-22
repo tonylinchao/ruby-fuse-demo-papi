@@ -16,4 +16,20 @@ public interface KafkaConstants {
      * 3scale Gateway API key
      */
     String GATEWAY_API_KEY = "x-api-key";
+
+    /**
+     * Accept header
+     */
+    String HEADER_ACCEPT = "Accept";
+
+    /**
+     * Host header
+     */
+    String HEADER_HOST = "Host";
+
+    /**
+     * Host Json content-type
+     */
+    String HEADER_CONTENT_TYPE_JSON = "application/json";
+
 }

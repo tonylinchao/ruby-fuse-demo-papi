@@ -1,5 +1,6 @@
 package com.hkt.ruby.fuse.demo.route;
 
+import com.hkt.ruby.fuse.demo.constant.KafkaConstants;
 import com.hkt.ruby.fuse.demo.utils.SSLUtil;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http4.HttpComponent;
@@ -16,6 +17,9 @@ public class VpcRouter extends RouteBuilder {
 
     @Value("${mulesoft.test-vpc}")
     private String muleTestVPCAPI;
+
+	@Value("${mulesoft.proxy}")
+	private String muleProxy;
 
 	@Value("${appProxy.ip}")
 	private String proxyServerIp;
@@ -37,12 +41,12 @@ public class VpcRouter extends RouteBuilder {
 		
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:test-vpc").routeId("direct-test-vpc")
-				.setHeader("Accept", constant("application/json"))
-				.setHeader("Host", constant("np1.muleamp.hkt.com"))
+				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(KafkaConstants.HEADER_HOST, constant(muleProxy))
 				.toD("https4:" + muleTestVPCAPI
-						+ "?proxyAuthHost=" + proxyServerIp
-						+ "&proxyAuthPort=" + proxyServerPort
-						+ "&bridgeEndpoint=true"
+//						+ "?proxyAuthHost=" + proxyServerIp
+//						+ "&proxyAuthPort=" + proxyServerPort
+						+ "?bridgeEndpoint=true"
 						+ "&throwExceptionOnFailure=false"
 						+ "&connectTimeout=30000"
 				)

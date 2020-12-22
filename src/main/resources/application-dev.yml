@@ -4,7 +4,7 @@ appProxy:
 
 ssl:
   keystore:
-    path: classpath:truststores.p12
+    path: classpath:truststores.dev.p12
     password: changeit
 
 mockapi:
@@ -15,23 +15,26 @@ mulesoft:
   # MuleSoft File Streaming API
   file-stream-api: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
   test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
+  proxy: np1.muleamp.hkt.com
 
 kafka:
   bridge:
-    baseurl: p.uamp.hkt.com/rubykafka/topics/
-    consumer:
-      groupid: my-topic-consumer-group
-      name: my-topic-consumer
-    topics:
-      topicname: ruby-topic
-      partitionid: 0
-  3scale:
-    apikey: 89c580cd88505a4940e30d4ea495c7d8
+    baseurl: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
+  consumer:
+    groupid: my-topic-consumer-group
+    name: my-topic-consumer
+  subscribe:
+    timeout: 3000
+    maxBytes: 1024
+  topics:
+    topicname: ruby-topic
+    partitionid: 0
   server:
-    hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
+    hostname: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
     port: 443
   ssl:
     protocol: SSL
-  groupId: my-topic-consumer-group
 
-
+3scale:
+  apikey: 89c580cd88505a4940e30d4ea495c7d8
+  host: p2.uamp.hkt.com

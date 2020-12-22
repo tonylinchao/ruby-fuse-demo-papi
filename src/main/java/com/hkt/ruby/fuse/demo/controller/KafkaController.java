@@ -2,7 +2,6 @@ package com.hkt.ruby.fuse.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hkt.ruby.fuse.demo.domain.EventRecords;
-import com.hkt.ruby.fuse.demo.route.KafkaRouter;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
@@ -11,7 +10,6 @@ import org.apache.camel.FluentProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,7 +31,7 @@ public class KafkaController {
      * @param topic Kafka topic
      * @param records Kafka event records.
      */
-    @PostMapping(path="/produce/topics/{topic}")
+    @PostMapping(path="/producer/topics/{topic}")
     public R produceEvents(@PathVariable(value="topic",required=true) String topic,
                           @RequestBody EventRecords records) throws Exception {
 
@@ -51,21 +49,31 @@ public class KafkaController {
     /**
      * Subscribe Event via Kafka Rest Bridge
      *
-     * @param topic Kafka topic
+     * @param groupId Consumer group id
+     * @param name Consumer instance name
      */
-    @PostMapping(path="/consume/topics/{topic}")
-    public R consumeEvents(@PathVariable(value="topic",required=true) String topic,
-                           @RequestParam(value="timeout",required=false) String timeout,
-                           @RequestParam(value="maxBytes",required=false) String maxBytes) throws Exception {
+    @GetMapping(path="/consumer/{groupid}/{name}")
+    public R consumeEvents(@PathVariable(value="groupid",required=true) String groupId,
+                           @PathVariable(value="name",required=true) String name) {
 
-        logger.debug("Request to publish event topic: [" + topic + "].");
+        logger.debug("Request to publish event groupid: [" + groupId + "], instance: [" + name + "]." );
 
-        ObjectMapper objectMapper = new ObjectMapper();
         Exchange result = fluentProducerTemplate
-                .withHeader("topic", topic)
+                .withHeader("groupid", groupId)
+                .withHeader("name", name)
                 .to("direct:consume-events").send();
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
 
+    /**
+     * Kafka consumer to call Strimzi Kafka bootstrap directly
+     */
+    @GetMapping(path="/consumer")
+    public R kafkaConsumer() {
+
+        Exchange result = fluentProducerTemplate.to("direct:kafka-consumer").send();
+
+        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+    }
 }

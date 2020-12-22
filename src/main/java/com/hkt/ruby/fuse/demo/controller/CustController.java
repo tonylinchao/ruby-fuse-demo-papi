@@ -30,14 +30,14 @@ public class CustController {
 	@GetMapping(path="/{hkid}")
 	public R getCustomers(@PathVariable(value="hkid",required=true) String hkid) {
 
-		return R.data(200, "Hello, this is Tony!");
+//		return R.data(200, "Hello, this is Tony!");
 
-//		logger.debug("Customer HKID No is - " + hkid);
-//		Exchange result = fluentProducerTemplate
-//			    .withHeader("hkid", hkid)
-//			    .to("direct:customers").send();
-//
-//		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+		logger.debug("Customer HKID No is - " + hkid);
+		Exchange result = fluentProducerTemplate
+			    .withHeader("hkid", hkid)
+			    .to("direct:customers").send();
+
+		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
 
 	/**
