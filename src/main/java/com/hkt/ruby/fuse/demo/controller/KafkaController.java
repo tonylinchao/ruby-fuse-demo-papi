@@ -1,6 +1,6 @@
 package com.hkt.ruby.fuse.demo.controller;
 
-import com.hkt.ruby.fuse.demo.domain.KafkaProducer;
+import com.hkt.ruby.fuse.demo.domain.EventRecords;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
@@ -25,37 +25,20 @@ public class KafkaController {
     @Autowired
     private FluentProducerTemplate fluentProducerTemplate;
 
-
     /**
      * Publish Event
      *
-     * @param kafkaproducer Kafka producer message.
+     * @param topic Kafka topic
+     * @param records Kafka event records.
      */
-    @PostMapping(path="/schema", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public R avroSchema(@RequestBody KafkaProducer kafkaproducer) {
+    @PostMapping(path="/produce/topics/{topic}")
+    public R publishEvents(@RequestParam(value="topic",required=false) String topic,
+                          @RequestBody EventRecords records) {
 
-        logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
-        Exchange result = fluentProducerTemplate
-                .withHeader("topic", kafkaproducer.getTopic())
-                .withHeader("message", kafkaproducer.getMessage())
-                .to("direct:publish-event").send();
-
-        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
-    }
-
-
-    /**
-     * Publish Event
-     *
-     * @param kafkaproducer Kafka producer message.
-     */
-    @PostMapping(path="/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public R publishEvent(@RequestBody KafkaProducer kafkaproducer) {
-
-		logger.debug("Request to publish event topic: [" + kafkaproducer.getTopic() + "], message: [" + kafkaproducer.getMessage() +"].");
+		logger.debug("Request to publish event topic: [" + topic + "], records: [" + records.toString() +"].");
 		Exchange result = fluentProducerTemplate
-			    .withHeader("topic", kafkaproducer.getTopic())
-                .withHeader("message", kafkaproducer.getMessage())
+			    .withHeader("topic", topic)
+                .withBody(records)
 			    .to("direct:publish-event").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
@@ -66,7 +49,7 @@ public class KafkaController {
      *
      * @param topic Event Topic.
      */
-    @GetMapping(path="/subscribe/{topic}")
+    @GetMapping(path="/consume")
     public R eventConsumer(@RequestParam(value="topic",required=false) String topic) {
 
         logger.debug("Request to sublic event topic: [" + topic + "].");

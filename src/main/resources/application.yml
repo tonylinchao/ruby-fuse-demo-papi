@@ -56,6 +56,15 @@ mulesoft:
   test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
 
 kafka:
+  bridge:
+    baseurl: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
+    consumer:
+      groupid: my-topic-consumer-group
+      name: my-topic-consumer
+    topics:
+      topicname: my-topic
+      partitionid: 0
+
   server:
     hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
     port: 443

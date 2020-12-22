@@ -1,118 +1,59 @@
 package com.hkt.ruby.fuse.demo.route;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.http4.HttpComponent;
+import org.apache.camel.util.jsse.KeyManagersParameters;
+import org.apache.camel.util.jsse.KeyStoreParameters;
+import org.apache.camel.util.jsse.SSLContextParameters;
+import org.apache.camel.util.jsse.TrustManagersParameters;
 import org.springframework.beans.factory.annotation.Value;
 
 public class KafkaRouter extends RouteBuilder {
 
-    @Value("${kafka.servier.hostname}")
-    private String kafkaServerHost;
-
-    @Value("${kafka.server.port}")
-    private String kafkaServerPort;
-
-    @Value("${kafka.ssl.keystore.location}")
-    private String keystoreLocation;
-
-    @Value("${kafka.ssl.keystore.password}")
-    private String keystorePass;
-
-    @Value("${kafka.ssl.protocol}")
-    private String sslProtocol;
-
-    @Value("${kafka.ssl.groupId}")
-    private String kafkaGroupId;
+    @Value("${kafka.bridge.baseurl}")
+    private String kafkaBridgeBaseUrl;
 
     @Override
     public void configure() throws Exception {
 
+        HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
+        httpComponent.setSslContextParameters(kafkaSslContextParameters());
+
         // Publish event via Kafka Bridge
-        from("kafka:my-topic?brokers=my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com:443"+
-                "&sslTruststoreLocation=classpath:local-truststore.jks" +
-                "&sslTruststorePassword=password" +
-                "&securityProtocol=SSL" +
-                "&groupId=my-topic-consumer-group")
+        from("direct:produce-event").routeId("direct-produce-event")
+                .setHeader("Content-Type", constant("application/vnd.kafka.json.v2+json"))
+                .setHeader("CamelHttpMethod", constant("POST"))
+                .toD("http4:" + kafkaBridgeBaseUrl + "/topics/" + "${in.header.topic}"
+                        + "&bridgeEndpoint=true"
+                        + "&throwExceptionOnFailure=false"
+                        + "&connectTimeout=30000"
+                )
                 .convertBodyTo(String.class)
+                .log("${body}")
                 //.process(customerProcessor)
-                .log("Message received from Kafka : ${body}")
-                .log("    on the topic ${headers[kafka.TOPIC]}")
-                .log("    on the partition ${headers[kafka.PARTITION]}")
-                .log("    with the offset ${headers[kafka.OFFSET]}")
-                .log("    with the key ${headers[kafka.KEY]}")
                 .marshal().json()
                 .end();
+    }
 
 
-        // Publish event to on-prem kafka
-        from("direct:publish-event").routeId("direct-publish-event")
-                .toD("kafka:my-topic?brokers=my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com:443"+
-                        "&sslTruststoreLocation=classpath:local-truststore.jks" +
-                        "&sslTruststorePassword=password" +
-                        "&securityProtocol=SSL" +
-                        "&groupId=my-topic-consumer-group")
-                .convertBodyTo(String.class)
-                //.process(customerProcessor)
-                .log("Message received from Kafka : ${body}")
-                .log("    on the topic ${headers[kafka.TOPIC]}")
-                .log("    on the partition ${headers[kafka.PARTITION]}")
-                .log("    with the offset ${headers[kafka.OFFSET]}")
-                .log("    with the key ${headers[kafka.KEY]}")
-                .marshal().json()
-                .end();
+    private SSLContextParameters kafkaSslContextParameters(){
 
+        KeyStoreParameters store = new KeyStoreParameters();
+        store.setResource("classpath:local-truststore.jks");
+        store.setPassword("password");
 
-        // Subscribe event to on-prem kafka
-//        from("direct:event-consumer").routeId("direct-event-consumer")
-//                .toD("kafka: ${in.header.topic}" +
-//                        "?brokers=" + kafkaServerHost + ":" + kafkaServerPort
-//                        + "&sslTruststoreLocation=" + keystoreLocation
-//                        + "&sslTruststorePassword=" + keystorePass
-//                        + "&securityProtocol=" + sslProtocol
-//                        + "&groupId=" + kafkaGroupId
-//                 )
-//                .convertBodyTo(String.class)
-//                //.process(customerProcessor)
-//                .log("Message received from Kafka : ${body}")
-//                .log("    on the topic ${headers[kafka.TOPIC]}")
-//                .log("    on the partition ${headers[kafka.PARTITION]}")
-//                .log("    with the offset ${headers[kafka.OFFSET]}")
-//                .log("    with the key ${headers[kafka.KEY]}")
-//                .marshal().json()
-//                .end();
+        KeyManagersParameters key = new KeyManagersParameters();
+        key.setKeyPassword("");
+        key.setKeyStore(store);
 
-        from("direct:event-consumer").routeId("direct-event-consumer")
-                .toD("kafka:ruby-topic?brokers=my-cluster-kafka-bootstrap-ruby-kafka-uat.app3.osp.pccw.com:443"+
-                        "&sslTruststoreLocation=/tmp/client-truststore.jks" +
-                        "&sslTruststorePassword=password" +
-                        "&securityProtocol=SSL" +
-                        "&groupId=group1")
-                .convertBodyTo(String.class)
-                //.process(customerProcessor)
-                .log("Message received from Kafka : ${body}")
-                .log("    on the topic ${headers[kafka.TOPIC]}")
-                .log("    on the partition ${headers[kafka.PARTITION]}")
-                .log("    with the offset ${headers[kafka.OFFSET]}")
-                .log("    with the key ${headers[kafka.KEY]}")
-                .marshal().json()
-                .end();
+        TrustManagersParameters trust = new TrustManagersParameters();
+        trust.setKeyStore(store);
 
+        SSLContextParameters parameters = new SSLContextParameters();
+        parameters.setTrustManagers(trust);
+        parameters.setKeyManagers(key);
 
-
-//        from("direct:event-consumer").routeId("direct-event-consumer")
-//                .toD("kafka:ruby-topic?brokers=my-cluster-kafka-bootstrap-ruby-kafka-uat.app3.osp.pccw.com:443"+
-//                    "&sslTruststoreLocation=/tmp/client-truststore.jks" +
-//                    "&sslTruststorePassword=password" +
-//                    "&securityProtocol=SSL" +
-//                    "&groupId=group1")
-//                .convertBodyTo(String.class)
-//                //.process(customerProcessor)
-//                .log("Message received from Kafka : ${body}")
-//                .log("    on the topic ${headers[kafka.TOPIC]}")
-//                .log("    on the partition ${headers[kafka.PARTITION]}")
-//                .log("    with the offset ${headers[kafka.OFFSET]}")
-//                .log("    with the key ${headers[kafka.KEY]}")
-//                .marshal().json()
-//                .end();
+        return parameters;
     }
 
 }
