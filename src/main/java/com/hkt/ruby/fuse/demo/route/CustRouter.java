@@ -20,6 +20,9 @@ public class CustRouter extends RouteBuilder {
     @Value("${mock.api.customers}")
     private String muleMockCustAPI;
 
+	@Value("${mulesoft.api.customer-info}")
+	private String muleCustAPI;
+
 	@Value("${appProxy.host}")
 	private String proxyServerHost;
 
@@ -44,9 +47,17 @@ public class CustRouter extends RouteBuilder {
 				.toD(https4RequestUrl)
 				.convertBodyTo(String.class)
 				.log("${body}")
-				//.process(customerProcessor)
 				.marshal().json()
 				.end();
+
+		from("direct:customer-info").routeId("direct-customer-info")
+				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
+				.toD("https4:" + muleCustAPI + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000")
+				.convertBodyTo(String.class)
+				.log("${body}")
+				.marshal().json()
+				.end();
+
 	}
 
 }

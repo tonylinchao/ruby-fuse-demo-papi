@@ -42,7 +42,6 @@ public class CustController {
 
 	/**
 	 * Test VPC
-	 *
 	 */
 	@GetMapping(path="/")
 	public R testVPC() {
@@ -50,6 +49,19 @@ public class CustController {
 
 		Exchange result = fluentProducerTemplate
 				.to("direct:test-vpc").send();
+
+		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+	}
+
+	/**
+	 * Call MuleSoft API for mTLS testing
+	 */
+	@GetMapping(path="/customer-info")
+	public R customerInfo() {
+
+		//	https://np1.muleamp.hkt.com/fst/a/com/customer-info/proc/api/v1/customer-info
+		Exchange result = fluentProducerTemplate
+				.to("direct:customer-info").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
