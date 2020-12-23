@@ -1,0 +1,62 @@
+[
+  {
+    "owner": {
+      "displayName": "jerome",
+      "id": "33d062a4dec80a9b50518482b94e3c2d402f39ea9bfcf791f698c0ce44c3c27a"
+    },
+    "bucketName": "hkt-test-s3",
+    "storageClass": "STANDARD",
+    "size": 0,
+    "ETag": "d41d8cd98f00b204e9800998ecf8427e",
+    "lastModified": "2020-10-07T06:54:58",
+    "key": "uploads/"
+  },
+  {
+    "owner": {
+      "displayName": "jerome",
+      "id": "33d062a4dec80a9b50518482b94e3c2d402f39ea9bfcf791f698c0ce44c3c27a"
+    },
+    "bucketName": "hkt-test-s3",
+    "storageClass": "STANDARD",
+    "size": 159462489,
+    "ETag": "42dc92ee5d06870036fcba38bf72b788-10",
+    "lastModified": "2020-10-29T05:56:11",
+    "key": "uploads/pretty-large-file.json"
+  },
+  {
+    "owner": {
+      "displayName": "jerome",
+      "id": "33d062a4dec80a9b50518482b94e3c2d402f39ea9bfcf791f698c0ce44c3c27a"
+    },
+    "bucketName": "hkt-test-s3",
+    "storageClass": "STANDARD",
+    "size": 531541623,
+    "ETag": "bdc3284089ce05303c0f111f85b228dc-31",
+    "lastModified": "2020-10-29T05:58:26",
+    "key": "uploads/super-large-file.json"
+  },
+  {
+    "owner": {
+      "displayName": "jerome",
+      "id": "33d062a4dec80a9b50518482b94e3c2d402f39ea9bfcf791f698c0ce44c3c27a"
+    },
+    "bucketName": "hkt-test-s3",
+    "storageClass": "STANDARD",
+    "size": 50308531,
+    "ETag": "b83ab2c02311c74e127b060c693d7452-3",
+    "lastModified": "2020-10-28T04:59:12",
+    "key": "uploads/test-data-2.json"
+  },
+  {
+    "owner": {
+      "displayName": "jerome",
+      "id": "33d062a4dec80a9b50518482b94e3c2d402f39ea9bfcf791f698c0ce44c3c27a"
+    },
+    "bucketName": "hkt-test-s3",
+    "storageClass": "STANDARD",
+    "size": 50308531,
+    "ETag": "b83ab2c02311c74e127b060c693d7452-3",
+    "lastModified": "2020-10-28T04:58:40",
+    "key": "uploads/test-data.json"
+  }
+]

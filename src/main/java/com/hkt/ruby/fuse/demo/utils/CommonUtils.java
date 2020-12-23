@@ -5,7 +5,15 @@ import org.apache.camel.util.jsse.KeyStoreParameters;
 import org.apache.camel.util.jsse.SSLContextParameters;
 import org.apache.camel.util.jsse.TrustManagersParameters;
 
-public class SSLUtil {
+import org.springframework.stereotype.Component;
+
+/**
+ * Common utils
+ *
+ * @author Tony C Lin
+ */
+@Component
+public class CommonUtils {
 
     public static SSLContextParameters sslContextParameters(String keystorePath, String keystorePass){
 

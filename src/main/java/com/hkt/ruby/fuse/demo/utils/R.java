@@ -8,32 +8,25 @@ import org.springframework.util.ObjectUtils;
 import java.io.Serializable;
 import java.util.Optional;
 
-
-@ApiModel(
-        description = "Response Body"
-)
+/**
+ * General class for response body
+ *
+ * @author Tony C Lin
+ */
+@ApiModel(description = "Response Body")
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(
-            value = "HTTP Status Cpde",
-            required = true
-    )
+    @ApiModelProperty(value = "HTTP Status Cpde", required = true)
     private int code;
 
-    @ApiModelProperty(
-            value = "Request Success?",
-            required = true
-    )
+    @ApiModelProperty(value = "Request Success?", required = true)
     private boolean success;
 
     @ApiModelProperty("Respond Content")
     private T data;
 
-    @ApiModelProperty(
-            value = "Respond Message",
-            required = true
-    )
+    @ApiModelProperty(value = "Respond Message", required = true)
     private String msg;
 
     private R(IResultCode resultCode) {
@@ -150,10 +143,10 @@ public class R<T> implements Serializable {
         this.msg = msg;
     }
 
-    public String toString() {
-        return "R(code=" + this.getCode() + ", success=" + this.isSuccess() + ", data=" + this.getData() + ", msg=" + this.getMsg() + ")";
+    public R() {
     }
 
-    public R() {
+    public String toString() {
+        return "R(code=" + this.getCode() + ", success=" + this.isSuccess() + ", data=" + this.getData() + ", msg=" + this.getMsg() + ")";
     }
 }
