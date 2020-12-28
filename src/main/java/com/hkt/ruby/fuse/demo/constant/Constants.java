@@ -1,6 +1,11 @@
 package com.hkt.ruby.fuse.demo.constant;
 
-public interface KafkaConstants {
+/**
+ * Constants for
+ *
+ * @author Tony C Lin
+ */
+public interface Constants {
 
     /**
      * Content-Type for kafka producer
@@ -31,5 +36,15 @@ public interface KafkaConstants {
      * Host Json content-type
      */
     String HEADER_CONTENT_TYPE_JSON = "application/json";
+
+    /**
+     * Development Environment
+     */
+    String DEV = "dev";
+
+    /**
+     * FT A Environment
+     */
+    String FT_A = "ft-a";
 
 }

@@ -1,9 +1,12 @@
 package com.hkt.ruby.fuse.demo.route;
 
-import com.hkt.ruby.fuse.demo.constant.KafkaConstants;
-import com.hkt.ruby.fuse.demo.utils.Environments;
+import com.hkt.ruby.fuse.demo.constant.Constants;
+import com.hkt.ruby.fuse.demo.properties.MuleProperties;
+import com.hkt.ruby.fuse.demo.properties.SystemProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,39 +14,32 @@ import org.springframework.stereotype.Component;
  *
  * @author Tony C Lin
  */
+@Slf4j
 @Component
+@EnableConfigurationProperties({MuleProperties.class, SystemProperties.class})
 public class CustRouter extends RouteBuilder {
 
-	@Value("${spring.profiles.active}")
-	private String activeEnv;
+	@Autowired
+	private MuleProperties muleProperties;
 
-    @Value("${mock.api.customers}")
-    private String muleMockCustAPI;
-
-	@Value("${mulesoft.api.customer-info}")
-	private String muleCustAPI;
-
-	@Value("${appProxy.host}")
-	private String proxyServerHost;
-
-	@Value("${appProxy.port}")
-	private String proxyServerPort;
+	@Autowired
+	private SystemProperties systemProperties;
 
 	@Override
 	public void configure() throws Exception {
 
 		String https4RequestUrl = null;
 
-		if(Environments.DEV.getEnv().equals(activeEnv)){
-			https4RequestUrl = "https4:" + muleMockCustAPI + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		if(Constants.DEV.equals(systemProperties.getActiveEnv())){
+			https4RequestUrl = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 		}else {
-			https4RequestUrl = "https4:" + muleMockCustAPI + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000"
-					+ "&proxyAuthHost=" + proxyServerHost + "&proxyAuthPort=" + proxyServerPort;
+			https4RequestUrl = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000"
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
 		}
 
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:customers").routeId("direct-customers")
-				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.toD(https4RequestUrl)
 				.convertBodyTo(String.class)
 				.log("${body}")
@@ -51,8 +47,8 @@ public class CustRouter extends RouteBuilder {
 				.end();
 
 		from("direct:customer-info").routeId("direct-customer-info")
-				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
-				.toD("https4:" + muleCustAPI + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000")
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD("https4:" + muleProperties.getApi().getCustomerInfo() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000")
 				.convertBodyTo(String.class)
 				.log("${body}")
 				.marshal().json()

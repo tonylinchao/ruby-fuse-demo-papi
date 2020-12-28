@@ -1,9 +1,12 @@
 package com.hkt.ruby.fuse.demo.route;
 
-import com.hkt.ruby.fuse.demo.constant.KafkaConstants;
-import com.hkt.ruby.fuse.demo.utils.Environments;
+import com.hkt.ruby.fuse.demo.constant.Constants;
+import com.hkt.ruby.fuse.demo.properties.MuleProperties;
+import com.hkt.ruby.fuse.demo.properties.SystemProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.builder.RouteBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,39 +14,35 @@ import org.springframework.stereotype.Component;
  *
  * @author Tony C Lin
  */
+@Slf4j
 @Component
+@EnableConfigurationProperties({MuleProperties.class, SystemProperties.class})
 public class FileRouter extends RouteBuilder {
 
-	@Value("${spring.profiles.active}")
-	private String activeEnv;
+	@Autowired
+	private MuleProperties muleProperties;
 
-    @Value("${mulesoft.api.file-stream}")
-    private String muleFileStreamAPI;
-
-	@Value("${appProxy.host}")
-	private String proxyServerHost;
-
-	@Value("${appProxy.port}")
-	private String proxyServerPort;
+	@Autowired
+	private SystemProperties systemProperties;
 
 	@Override
 	public void configure() throws Exception {
 
-		String https4RequestUrl = null;
+		String http4RequestUrl = null;
 
-		if(Environments.DEV.getEnv().equals(activeEnv)){
-			https4RequestUrl = "http4:" + muleFileStreamAPI + "${in.header.endpoint}?fileName=${in.header.fileName}"
+		if(Constants.DEV.equals(systemProperties.getActiveEnv())){
+			http4RequestUrl = "http4:" + muleProperties.getApi().getFileStream() + "${in.header.endpoint}?fileName=${in.header.fileName}"
 					+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000";
 		}else {
-			https4RequestUrl = "http4:" + muleFileStreamAPI + "${in.header.endpoint}?fileName=${in.header.fileName}"
+			http4RequestUrl = "http4:" + muleProperties.getApi().getFileStream() + "${in.header.endpoint}?fileName=${in.header.fileName}"
 					+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000"
-					+ "&proxyAuthHost=" + proxyServerHost + "&proxyAuthPort=" + proxyServerPort;
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
 		}
 		
 		// Call Mule API to get file in streaming
 		from("direct:file-stream").routeId("direct-file-stream")
-				.setHeader(KafkaConstants.HEADER_ACCEPT, constant(KafkaConstants.HEADER_CONTENT_TYPE_JSON))
-				.toD(https4RequestUrl)
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(http4RequestUrl)
 				.convertBodyTo(String.class)
 				.choice()
 					.when(header("outputFile").isNotNull())

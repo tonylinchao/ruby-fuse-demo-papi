@@ -1,7 +1,7 @@
 package com.hkt.ruby.fuse.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hkt.ruby.fuse.demo.domain.EventRecords;
+import com.hkt.ruby.fuse.demo.model.EventRecords;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 

@@ -3,7 +3,7 @@ app-proxy:
   port: 8080
 
 ssl:
-  truststore-path: classpath:tls/truststores.dev.p12
+  truststore-path: classpath:tls/truststores.ft-a.p12
   truststore-pass: changeit
 
 mule:
@@ -18,11 +18,11 @@ mule:
 
 kafka:
   bridge:
-    base-url: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
+    base-url: msghub-bridge-ft-a.hkt.com
     subscribe-timeout: 3000
     subscribe-maxBytes: 1024
   bootstrap:
-    hostname: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
+    hostname: msghub-ft-a.hkt.com
     port: 443
     truststore-path: classpath:tls/msghub-ft-a.truststore.jks
     truststore-pass: password
@@ -33,5 +33,5 @@ kafka:
   topic:
     name: ruby-topic
     partition: 0
-    consumer-group: my-topic-consumer-group
-    consumer-name: my-topic-consumer
+    consumer-group: ruby-group
+    consumer-name: ruby-consumer
