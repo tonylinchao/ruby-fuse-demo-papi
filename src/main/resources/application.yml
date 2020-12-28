@@ -1,7 +1,7 @@
 #active
 spring:
   profiles:
-    active: uat
+    active: dev
   main:
     web-application-type: none
 

@@ -41,6 +41,7 @@ public class KafkaController {
 		Exchange result = fluentProducerTemplate
 			    .withHeader("topic", topic)
                 .withBody(objectMapper.writeValueAsString(records))
+                .to("json-validator:schemas/kafka-publish-event-request.json")
 			    .to("direct:produce-events").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());

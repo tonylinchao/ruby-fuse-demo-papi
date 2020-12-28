@@ -36,6 +36,8 @@ kafka:
     hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
     port: 443
   ssl:
+    keystore:
+      location: classpath:tls/client-truststore.jks
     protocol: SSL
 
 3scale:

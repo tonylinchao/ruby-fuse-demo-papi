@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": "Schema of request body of Kafka publish event API",
+  "id": "kafka-publish-event-request-schema",
+  "properties": {
+    "records": {
+      "title": "Records",
+      "description": "The records for publish event records.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/record"
+      },
+      "uniqueItems": true
+    },
+    "id": {
+      "default": 1,
+      "description": "An explanation about the purpose of this instance.",
+      "id": "/properties/id",
+      "title": "The id schema",
+      "type": "integer"
+    },
+    "name": {
+      "default": "A green door",
+      "description": "An explanation about the purpose of this instance.",
+      "id": "/properties/name",
+      "title": "The name schema",
+      "type": "string"
+    },
+    "price": {
+      "default": 12.5,
+      "description": "An explanation about the purpose of this instance.",
+      "id": "/properties/price",
+      "title": "The price schema",
+      "type": "number"
+    }
+  },
+  "required": [
+    "records"
+  ],
+  "definitions": {
+    "record": {
+      "title": "Record",
+      "description": "Kafka event record of producer.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "title": "Event Key",
+          "description": "Event Key for a record",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+$"
+        },
+        "partition": {
+          "title": "Partition of event topic",
+          "description": "Publish event to which partition",
+          "type": "number"
+        },
+        "value": {
+            "title": "Event content",
+          "description": "Event content, should in base64 format",
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    }
+  },
+  "type": "object"
+}
