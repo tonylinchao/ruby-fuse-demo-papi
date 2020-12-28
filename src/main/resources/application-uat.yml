@@ -17,6 +17,7 @@ mulesoft:
     # MuleSoft File Streaming API
     file-stream: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
     test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
+    customer-info: np1.muleamp.hkt.com/fst/a/com/customer-info/proc/api/v1/customer-info
   proxy: np1.muleamp.hkt.com
 
 kafka:
@@ -31,8 +32,7 @@ kafka:
     topics:
       topicname: ruby-topic
       partitionid: 0
-
-  server:
+  bootstrap:
     hostname: my-cluster-kafka-bootstrap-ruby-dev.apps.openshift3.com
     port: 443
   ssl:

@@ -32,10 +32,12 @@ kafka:
   topics:
     topicname: ruby-topic
     partitionid: 0
-  server:
+  bootstrap:
     hostname: my-bridge-bridge-service-ruby-dev.apps.openshift3.com
     port: 443
   ssl:
+    keystore:
+      location: classpath:tls/client-truststore.jks
     protocol: SSL
 
 3scale:

@@ -33,6 +33,9 @@ public class KafkaRouter extends RouteBuilder {
     @Value("${ssl.keystore.password}")
     private String keystorePass;
 
+    @Value("${kafka.ssl.keystore.location}")
+    private String kafkaConsumerKeystoreLocation;
+
     @Override
     public void configure() throws Exception {
 
@@ -77,7 +80,7 @@ public class KafkaRouter extends RouteBuilder {
         // Kafka consumer to call Strimzi Kafka bootstrap directly
         from("direct:kafka-consumer").routeId("direct-kafka-consumer")
                 .toD("kafka:ruby-topic?brokers=my-cluster-kafka-bootstrap-ruby-kafka-uat.app3.osp.pccw.com:443"
-                        + "&sslTruststoreLocation=classpath:tls/client-truststore.jks"
+                        + "&sslTruststoreLocation=" + kafkaConsumerKeystoreLocation
                         + "&sslTruststorePassword=password"
                         + "&securityProtocol=SSL"
                         + "&groupId=group1")
