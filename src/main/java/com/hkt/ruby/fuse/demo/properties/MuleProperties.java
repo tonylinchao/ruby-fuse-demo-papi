@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.stereotype.Component;
 
 /**
  * MuleSoft Properties
@@ -12,6 +13,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * @author Tony C Lin
  */
 @Data
+@Component
 @ConfigurationProperties(prefix = "mule")
 public class MuleProperties {
 

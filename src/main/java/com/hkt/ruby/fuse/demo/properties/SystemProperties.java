@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "")
+@ConfigurationProperties(prefix = "system")
 public class SystemProperties {
 
     @NestedConfigurationProperty
@@ -29,7 +29,6 @@ public class SystemProperties {
 
     @Getter
     @Setter
-    @ConfigurationProperties(prefix = "ssl")
     public static class SSL {
         private String truststorePath;
         private String truststorePass;
@@ -37,7 +36,6 @@ public class SystemProperties {
 
     @Getter
     @Setter
-    @ConfigurationProperties(prefix = "app-proxy")
     public static class AppProxy {
         private String hostname;
         private int port;

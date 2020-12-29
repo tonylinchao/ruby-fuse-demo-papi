@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "definitions": "Schema of request body of Kafka publish event API",
   "id": "kafka-publish-event-request-schema",
   "properties": {
     "records": {

@@ -1,4 +1,4 @@
-package com.hkt.ruby.fuse.demo.route;
+package com.hkt.ruby.fuse.demo.router;
 
 import com.hkt.ruby.fuse.demo.properties.KafkaProperties;
 import com.hkt.ruby.fuse.demo.constant.Constants;

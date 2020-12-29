@@ -3,6 +3,7 @@ package com.hkt.ruby.fuse.demo.properties;
 import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.stereotype.Component;
 
 /**
  * Kafka Properties
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  * @author Tony C Lin
  */
 @Data
+@Component
 @ConfigurationProperties(prefix = "kafka")
 public class KafkaProperties {
 
