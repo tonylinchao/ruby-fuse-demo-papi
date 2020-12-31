@@ -12,6 +12,7 @@
     <camel.version>2.21.0.fuse-750029</camel.version>
     <kafka.version>2.23.2.fuse-750029-redhat-00001</kafka.version>
     <json-schema-validator.version>2.21.0.fuse-760027-redhat-00001</json-schema-validator.version>
+    <camel-test-spring.version>2.21.0.fuse-750033-redhat-00001</camel-test-spring.version>
     <swagger.version>2.7.0</swagger.version>
     <lombok.version>1.18.12</lombok.version>
     <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
@@ -88,6 +89,19 @@
       <artifactId>lombok</artifactId>
       <optional>true</optional>
       <version>${lombok.version}</version>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test-spring</artifactId>
+      <version>${camel-test-spring.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   

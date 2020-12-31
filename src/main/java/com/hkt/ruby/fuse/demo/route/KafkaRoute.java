@@ -1,4 +1,4 @@
-package com.hkt.ruby.fuse.demo.router;
+package com.hkt.ruby.fuse.demo.route;
 
 import com.hkt.ruby.fuse.demo.properties.KafkaProperties;
 import com.hkt.ruby.fuse.demo.constant.Constants;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @EnableConfigurationProperties({KafkaProperties.class, SystemProperties.class})
-public class KafkaRouter extends RouteBuilder {
+public class KafkaRoute extends RouteBuilder {
 
     @Autowired
     private KafkaProperties kafkaProperties;

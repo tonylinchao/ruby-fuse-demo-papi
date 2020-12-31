@@ -1,4 +1,4 @@
-package com.hkt.ruby.fuse.demo.router;
+package com.hkt.ruby.fuse.demo.route;
 
 import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @EnableConfigurationProperties({MuleProperties.class, SystemProperties.class})
-public class FileRouter extends RouteBuilder {
+public class FileRoute extends RouteBuilder {
 
 	@Autowired
 	private MuleProperties muleProperties;
