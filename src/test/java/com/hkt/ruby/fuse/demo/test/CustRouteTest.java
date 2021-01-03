@@ -22,6 +22,6 @@ public class CustRouteTest {
     public void testVpcAspect() throws InterruptedException {
         producerTemplate.sendBody("hello");
 
-        mockEndpoint.assertIsSatisfied();
+        mockEndpoint.assertIsSatisfied(0);
     }
 }

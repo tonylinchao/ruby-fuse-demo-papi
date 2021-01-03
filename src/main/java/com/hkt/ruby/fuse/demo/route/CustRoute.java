@@ -4,7 +4,9 @@ import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.http.common.HttpOperationFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,17 @@ public class CustRoute extends RouteBuilder {
 			https4RequestUrl = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000"
 					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
 		}
+
+		// Default error handling
+		onException(Exception.class)
+				.log("Error info: ${exception}");
+
+		// Http request retry
+		onException(HttpOperationFailedException.class)
+				.log("Http request failed: ${exception}")
+				.maximumRedeliveries(3)
+				.maximumRedeliveryDelay(1000)
+				.retryAttemptedLogLevel(LoggingLevel.INFO);
 
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:customers").routeId("direct-customers")

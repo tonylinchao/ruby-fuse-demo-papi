@@ -2,10 +2,9 @@ package com.hkt.ruby.fuse.demo.controller;
 
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.FluentProducerTemplate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Tony C Lin
  */
+@Slf4j
 @RestController
 @RequestMapping("/customers")
 public class CustController {
-	private static final Logger logger = LoggerFactory.getLogger(CustController.class);
 
 	@Autowired
 	private FluentProducerTemplate fluentProducerTemplate;
@@ -32,7 +31,7 @@ public class CustController {
 
 		return R.data(200, "Hello, this is Tony!");
 
-//		logger.debug("Customer HKID No is - " + hkid);
+//		log.debug("Customer HKID No is - " + hkid);
 //		Exchange result = fluentProducerTemplate
 //			    .withHeader("hkid", hkid)
 //			    .to("direct:customers").send();

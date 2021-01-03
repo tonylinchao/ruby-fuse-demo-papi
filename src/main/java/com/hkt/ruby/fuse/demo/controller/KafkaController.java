@@ -5,6 +5,7 @@ import com.hkt.ruby.fuse.demo.model.EventRecords;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.FluentProducerTemplate;
 import org.slf4j.Logger;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author Tony C Lin
  */
+@Slf4j
 @RestController
 @RequestMapping("/kafka")
 public class KafkaController {
-    private static final Logger logger = LoggerFactory.getLogger(KafkaController.class);
 
     @Autowired
     private FluentProducerTemplate fluentProducerTemplate;
@@ -35,7 +36,7 @@ public class KafkaController {
     public R produceEvents(@PathVariable(value="topic",required=true) String topic,
                           @RequestBody EventRecords records) throws Exception {
 
-		logger.debug("Request to publish event topic: [" + topic + "], records: [" + records.toString() +"].");
+		log.debug("Request to publish event topic: [" + topic + "], records: [" + records.toString() +"].");
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		Exchange result = fluentProducerTemplate
@@ -57,7 +58,7 @@ public class KafkaController {
     public R consumeEvents(@PathVariable(value="groupid",required=true) String groupId,
                            @PathVariable(value="name",required=true) String name) {
 
-        logger.debug("Request to publish event groupid: [" + groupId + "], instance: [" + name + "]." );
+        log.debug("Request to publish event groupid: [" + groupId + "], instance: [" + name + "]." );
 
         Exchange result = fluentProducerTemplate
                 .withHeader("groupid", groupId)

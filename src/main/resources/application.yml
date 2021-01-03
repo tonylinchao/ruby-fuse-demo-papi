@@ -1,7 +1,7 @@
 #active
 spring:
   profiles:
-    active: ft-a #ft-a
+    active: dev #ft-a
   main:
     web-application-type: none
 
@@ -23,7 +23,7 @@ camel:
 
   springboot:
     # the options from org.apache.camel.spring.boot.CamelConfigurationProperties can be configured here
-    name: FuseRest
+    name: Camel
     main-run-controller: true
 
 # disable all management enpoints except health
