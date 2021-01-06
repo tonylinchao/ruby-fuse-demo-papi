@@ -1,7 +1,8 @@
 system:
   app-proxy:
-    hostname: 10.211.100.102 #app-proxy.pccw.com
+    hostname: app-proxy.pccw.com
     port: 8080
+    scheme: http
   ssl:
     truststore-path: classpath:tls/truststores.ft-a.p12
     truststore-pass: changeit
@@ -22,7 +23,7 @@ kafka:
     subscribe-timeout: 3000
     subscribe-maxBytes: 1024
   bootstrap:
-    hostname: msghub-ft-a.hkt.com
+    hostname: 10.168.104.4 #msghub-ft-a.hkt.com
     port: 443
     truststore-path: classpath:tls/msghub-ft-a.truststore.jks
     truststore-pass: password

@@ -39,5 +39,6 @@ public class SystemProperties {
     public static class AppProxy {
         private String hostname;
         private int port;
+        private String scheme;
     }
 }

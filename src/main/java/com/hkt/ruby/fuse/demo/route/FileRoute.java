@@ -28,15 +28,15 @@ public class FileRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		String http4RequestUrl = null;
+		String http4RequestUrl = "http4:" + muleProperties.getApi().getFileStream() + "${in.header.endpoint}?fileName=${in.header.fileName}"
+				+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000";
 
-		if(Constants.DEV.equals(systemProperties.getActiveEnv())){
-			http4RequestUrl = "http4:" + muleProperties.getApi().getFileStream() + "${in.header.endpoint}?fileName=${in.header.fileName}"
-					+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000";
-		}else {
-			http4RequestUrl = "http4:" + muleProperties.getApi().getFileStream() + "${in.header.endpoint}?fileName=${in.header.fileName}"
-					+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000"
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
+		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
+			http4RequestUrl = http4RequestUrl
+//					+ "&proxyAuthHost=" + "10.211.100.102" // for non-MuleSoft Standard DLB
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
+					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
+					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
 		}
 		
 		// Call Mule API to get file in streaming

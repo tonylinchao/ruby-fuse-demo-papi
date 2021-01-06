@@ -4,6 +4,7 @@ import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.http.common.HttpOperationFailedException;
@@ -30,13 +31,20 @@ public class CustRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		String https4RequestUrl = null;
+		String https4RequestUrlOfCustomers = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		String https4RequestUrlOfCustomerInfo = "https4:" + muleProperties.getApi().getCustomerInfo() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 
-		if(Constants.DEV.equals(systemProperties.getActiveEnv())){
-			https4RequestUrl = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
-		}else {
-			https4RequestUrl = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000"
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
+		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
+			https4RequestUrlOfCustomers = https4RequestUrlOfCustomers
+//					+ "&proxyAuthHost=" + "10.211.100.102" // for non-MuleSoft Standard DLB
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
+					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
+					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
+
+			https4RequestUrlOfCustomerInfo = https4RequestUrlOfCustomerInfo
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
+					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
+					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
 		}
 
 		// Default error handling
@@ -53,7 +61,8 @@ public class CustRoute extends RouteBuilder {
 		// Call Mule Exchange mock REST API to get customer info
 		from("direct:customers").routeId("direct-customers")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-				.toD(https4RequestUrl)
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(https4RequestUrlOfCustomers)
 				.convertBodyTo(String.class)
 				.log("${body}")
 				.marshal().json()
@@ -61,7 +70,8 @@ public class CustRoute extends RouteBuilder {
 
 		from("direct:customer-info").routeId("direct-customer-info")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-				.toD("https4:" + muleProperties.getApi().getCustomerInfo() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000")
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(https4RequestUrlOfCustomerInfo)
 				.convertBodyTo(String.class)
 				.log("${body}")
 				.marshal().json()

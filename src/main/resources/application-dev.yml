@@ -2,6 +2,7 @@ system:
   app-proxy:
     hostname: 10.211.100.102 #app-proxy.pccw.com
     port: 8080
+    scheme: http
   ssl:
     truststore-path: classpath:tls/truststores.dev.p12
     truststore-pass: changeit

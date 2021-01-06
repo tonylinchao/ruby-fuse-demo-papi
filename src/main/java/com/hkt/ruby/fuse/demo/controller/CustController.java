@@ -22,6 +22,16 @@ public class CustController {
 	private FluentProducerTemplate fluentProducerTemplate;
 
 	/**
+	 * Health test
+	 *
+	 * @param hkid Customer HKID No.
+	 */
+	@GetMapping(path="/test")
+	public R test() {
+		return R.data(200, "Hello, this is Tony!");
+	}
+
+	/**
 	 * Get Customer Info by HKID
 	 *
 	 * @param hkid Customer HKID No.
@@ -29,25 +39,10 @@ public class CustController {
 	@GetMapping(path="/{hkid}")
 	public R getCustomers(@PathVariable(value="hkid",required=true) String hkid) {
 
-		return R.data(200, "Hello, this is Tony!");
-
-//		log.debug("Customer HKID No is - " + hkid);
-//		Exchange result = fluentProducerTemplate
-//			    .withHeader("hkid", hkid)
-//			    .to("direct:customers").send();
-//
-//		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
-	}
-
-	/**
-	 * Test VPC
-	 */
-	@GetMapping(path="/")
-	public R testVPC() {
-//		return R.data(200, "Enquiry customer list success!");
-
+		log.debug("Customer HKID No is - " + hkid);
 		Exchange result = fluentProducerTemplate
-				.to("direct:test-vpc").send();
+			    .withHeader("hkid", hkid)
+			    .to("direct:customers").send();
 
 		return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
 	}
@@ -58,7 +53,6 @@ public class CustController {
 	@GetMapping(path="/customer-info")
 	public R customerInfo() {
 
-		//	https://np1.muleamp.hkt.com/fst/a/com/customer-info/proc/api/v1/customer-info
 		Exchange result = fluentProducerTemplate
 				.to("direct:customer-info").send();
 

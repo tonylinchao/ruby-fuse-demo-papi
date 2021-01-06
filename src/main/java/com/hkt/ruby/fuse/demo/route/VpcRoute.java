@@ -5,6 +5,7 @@ import com.hkt.ruby.fuse.demo.properties.MuleProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
 import com.hkt.ruby.fuse.demo.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http4.HttpComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,25 @@ public class VpcRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		String https4RequestUrl = null;
+		String https4RequestUrl = "https4:" + muleProperties.getApi().getTestVpc() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 
-		if(Constants.DEV.equals(systemProperties.getActiveEnv())){
-			https4RequestUrl = "https4:" + muleProperties.getApi().getTestVpc() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
-		}else {
-			https4RequestUrl = "https4:" + muleProperties.getApi().getTestVpc() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000"
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname() + "&proxyAuthPort=" + systemProperties.getAppProxy().getPort();
+		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
+			https4RequestUrl = https4RequestUrl
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
+					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
+					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
 		}
+		log.debug("Request URI: " + https4RequestUrl);
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
 		httpComponent.setSslContextParameters(CommonUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
 				systemProperties.getSsl().getTruststorePass()));
 		
 		// Call Mule Exchange mock REST API to get customer info
-		from("direct:test-vpc").routeId("direct-test-vpc")
+		from("direct:vpc-test").routeId("direct-vpc-test")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.setHeader(Constants.HEADER_HOST, constant(muleProperties.getProxy()))
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.toD(https4RequestUrl)
 				.convertBodyTo(String.class)
 				.log("${body}")
