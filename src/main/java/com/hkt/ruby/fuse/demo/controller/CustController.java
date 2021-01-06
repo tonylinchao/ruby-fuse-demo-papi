@@ -24,7 +24,6 @@ public class CustController {
 	/**
 	 * Health test
 	 *
-	 * @param hkid Customer HKID No.
 	 */
 	@GetMapping(path="/test")
 	public R test() {

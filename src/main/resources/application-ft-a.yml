@@ -1,7 +1,9 @@
 system:
+  # HKT app proxy for internal application call external APIs
   app-proxy:
     hostname: app-proxy.pccw.com
     port: 8080
+    # proxy scheme type
     scheme: http
   ssl:
     truststore-path: classpath:tls/truststores.ft-a.p12

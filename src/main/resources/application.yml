@@ -1,11 +1,13 @@
-#active
 spring:
   profiles:
-    active: ft-a #dev, ft-a
+    # Active environment: dev, ft-a
+    active: dev
   main:
     web-application-type: none
 
 server:
+  # Application context path
+  context-path: /fuse
   port: 8080
   # lets listen on all ports to ensure we can be invoked from the pod IP
   address: 0.0.0.0
@@ -17,16 +19,15 @@ management:
   
 camel:
   component:
-    # to vilidate request and response schemas
+    # Request and response schemas validation
     json-validator:
       enabled: true
-
   springboot:
-    # the options from org.apache.camel.spring.boot.CamelConfigurationProperties can be configured here
+    # Options from org.apache.camel.spring.boot.CamelConfigurationProperties can be configured here
     name: Camel
     main-run-controller: true
 
-# disable all management enpoints except health
+# Disable all management enpoints except health
 endpoints:
   enabled: false
   health:
