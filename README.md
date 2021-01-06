@@ -22,7 +22,7 @@ The example can be built with
 
 ### 3. Check API Spec in Swagger page
 
-    http://localhost:8080/swagger-ui.html
+    http://localhost:8080/fuse/swagger-ui/index.html
     
 ### 4. Run test cases by Postman
 Import the test collection file in Postman, check Mule API related test cases.    

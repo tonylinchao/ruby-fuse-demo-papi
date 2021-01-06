@@ -2,6 +2,7 @@ package com.hkt.ruby.fuse.demo.controller;
 
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.FluentProducerTemplate;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/file")
+@Tag(name = "File Stream", description = "The File Stream API")
 public class FileController {
 
     @Autowired
@@ -29,7 +31,7 @@ public class FileController {
      * @param endpoint Endpoint Name
      * @param fileName File Name
      */
-    @GetMapping(path="/stream/{endpoint}")
+    @GetMapping(path="/stream/{endpoint}", produces={"application/json"})
     public R getStreamFile(@PathVariable(value="endpoint",required=true) String endpoint,
                            @RequestParam(value="fileName",required=false) String fileName,
                            @RequestParam(value="outputFile",required=false) String outputFile) {

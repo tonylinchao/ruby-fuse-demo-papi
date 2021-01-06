@@ -5,6 +5,7 @@ import com.hkt.ruby.fuse.demo.model.EventRecords;
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.FluentProducerTemplate;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/kafka")
+@Tag(name = "Kafka Bridge", description = "The Kafka Bridge API")
 public class KafkaController {
 
     @Autowired
@@ -32,7 +34,7 @@ public class KafkaController {
      * @param topic Kafka topic
      * @param records Kafka event records.
      */
-    @PostMapping(path="/producer/topics/{topic}")
+    @PostMapping(path="/producer/topics/{topic}", produces={"application/json"})
     public R produceEvents(@PathVariable(value="topic",required=true) String topic,
                           @RequestBody EventRecords records) throws Exception {
 
@@ -54,7 +56,7 @@ public class KafkaController {
      * @param groupId Consumer group id
      * @param name Consumer instance name
      */
-    @GetMapping(path="/consumer/{groupid}/{name}")
+    @GetMapping(path="/consumer/{groupid}/{name}", produces={"application/json"})
     public R consumeEvents(@PathVariable(value="groupid",required=true) String groupId,
                            @PathVariable(value="name",required=true) String name) {
 
@@ -71,7 +73,7 @@ public class KafkaController {
     /**
      * Kafka consumer to call Strimzi Kafka bootstrap directly
      */
-    @GetMapping(path="/consumer")
+    @GetMapping(path="/consumer", produces={"application/json"})
     public R kafkaConsumer() {
 
         Exchange result = fluentProducerTemplate.to("direct:kafka-consumer").send();

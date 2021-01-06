@@ -74,16 +74,12 @@
       <artifactId>camel-json-validator</artifactId>
       <version>${json-schema-validator.version}</version>
     </dependency>
-	<dependency>
-	  <groupId>io.springfox</groupId>
-	  <artifactId>springfox-swagger2</artifactId>
-      <version>${swagger.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>io.springfox</groupId>
-	  <artifactId>springfox-swagger-ui</artifactId>
-      <version>${swagger.version}</version>
-	</dependency>
+    <!-- OpenAPI 3 specification docs UI-->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+      <version>1.4.0</version>
+    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

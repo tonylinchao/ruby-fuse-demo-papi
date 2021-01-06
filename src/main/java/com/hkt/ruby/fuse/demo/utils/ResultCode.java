@@ -1,5 +1,10 @@
 package com.hkt.ruby.fuse.demo.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ResultCode implements IResultCode {
     SUCCESS(200, "SUCCESS"),
     FAILURE(400, "FAILURE"),
@@ -18,17 +23,4 @@ public enum ResultCode implements IResultCode {
 
     final int code;
     final String message;
-
-    public int getCode() {
-        return this.code;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    private ResultCode(final int code, final String message) {
-        this.code = code;
-        this.message = message;
-    }
 }

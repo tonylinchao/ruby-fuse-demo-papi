@@ -1,7 +1,6 @@
 package com.hkt.ruby.fuse.demo.utils;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.apache.camel.Exchange;
 import org.springframework.util.ObjectUtils;
 
@@ -13,20 +12,13 @@ import java.util.Optional;
  *
  * @author Tony C Lin
  */
-@ApiModel(description = "Response Body")
+@Data
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "HTTP Status Cpde", required = true)
     private int code;
-
-    @ApiModelProperty(value = "Request Success?", required = true)
     private boolean success;
-
-    @ApiModelProperty("Respond Content")
     private T data;
-
-    @ApiModelProperty(value = "Respond Message", required = true)
     private String msg;
 
     private R(IResultCode resultCode) {
@@ -108,45 +100,7 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> status(boolean flag) {
-        return flag ? success("操作成功") : fail("操作失败");
+        return flag ? success("SUCCESS") : fail("Failed");
     }
 
-    public int getCode() {
-        return this.code;
-    }
-
-    public boolean isSuccess() {
-        return this.success;
-    }
-
-    public T getData() {
-        return this.data;
-    }
-
-    public String getMsg() {
-        return this.msg;
-    }
-
-    public void setCode(final int code) {
-        this.code = code;
-    }
-
-    public void setSuccess(final boolean success) {
-        this.success = success;
-    }
-
-    public void setData(final T data) {
-        this.data = data;
-    }
-
-    public void setMsg(final String msg) {
-        this.msg = msg;
-    }
-
-    public R() {
-    }
-
-    public String toString() {
-        return "R(code=" + this.getCode() + ", success=" + this.isSuccess() + ", data=" + this.getData() + ", msg=" + this.getMsg() + ")";
-    }
 }

@@ -1,7 +1,7 @@
 package com.hkt.ruby.fuse.demo.constant;
 
 /**
- * Constants for
+ * System Constants
  *
  * @author Tony C Lin
  */
