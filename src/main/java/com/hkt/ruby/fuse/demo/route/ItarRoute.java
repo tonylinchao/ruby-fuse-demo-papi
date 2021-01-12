@@ -52,6 +52,19 @@ public class ItarRoute extends RouteBuilder {
 				.log("${body}")
 				.marshal().json()
 				.end();
+
+		from("direct:itar-digispace-redis").routeId("direct-itar-digispace-redis")
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(https4RequestUrl)
+				.convertBodyTo(String.class)
+				.setHeader("CamelRedis.Command", constant("SET"))
+				.setHeader("CamelRedis.Key", constant("keyOne"))
+				.setHeader("CamelRedis.Value", constant("${body}"))
+				.to("spring-redis://192.168.1.1:6379?connectionFactory=#connectionFactory&serializer=#serializer")
+				.log("${body}")
+				.marshal().json()
+				.end();
 	}
 
 }

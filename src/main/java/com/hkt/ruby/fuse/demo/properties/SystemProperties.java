@@ -24,6 +24,9 @@ public class SystemProperties {
     @NestedConfigurationProperty
     private AppProxy appProxy;
 
+    @NestedConfigurationProperty
+    private Redis redis;
+
     @Value("${spring.profiles.active}")
     private String activeEnv;
 
@@ -40,6 +43,14 @@ public class SystemProperties {
         private String hostname;
         private int port;
         private String scheme;
+    }
+
+    @Getter
+    @Setter
+    public static class Redis {
+        private String hostname;
+        private int port;
+        private String password;
     }
 
     public String getSystemProxy (String https4RequestUrl) {

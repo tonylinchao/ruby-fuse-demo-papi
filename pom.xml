@@ -13,6 +13,7 @@
     <kafka.version>2.23.2.fuse-750029-redhat-00001</kafka.version>
     <json-schema-validator.version>2.21.0.fuse-760027-redhat-00001</json-schema-validator.version>
     <camel-test-spring.version>2.21.0.fuse-750033-redhat-00001</camel-test-spring.version>
+    <camel-redis.version>2.21.0.fuse-750033-redhat-00001</camel-redis.version>
     <swagger.version>2.7.0</swagger.version>
     <lombok.version>1.18.12</lombok.version>
     <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
@@ -80,6 +81,7 @@
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>1.4.0</version>
     </dependency>
+    <!-- lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -99,6 +101,14 @@
       <version>${camel-test-spring.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Redis -->
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-spring-redis-starter</artifactId>
+      <version>${camel-redis.version}</version>
+    </dependency>
+
   </dependencies>
   
   <repositories>

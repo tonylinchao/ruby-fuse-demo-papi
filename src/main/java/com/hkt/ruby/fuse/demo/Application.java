@@ -30,25 +30,12 @@ import org.springframework.context.annotation.ImportResource;
  * @author Tony C Lin
  */
 @SpringBootApplication
-@Configuration
 @ImportResource({"classpath:spring/camel-context.xml"})
 public class Application {
 
     // must have a main method spring-boot can run
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-    }
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Fuse API Demo")
-                        .version("v1")
-                        .description("This is a Red Hat Fuse API demo project.")
-                        .termsOfService("http://swagger.io/terms/")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
     }
 
 }
