@@ -32,11 +32,7 @@ public class FileRoute extends RouteBuilder {
 				+ "&scanStream=true&scanStreamDelay=1000&retry=true&fileWatcher=true&readTimeout=300000";
 
 		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
-			http4RequestUrl = http4RequestUrl
-//					+ "&proxyAuthHost=" + "10.211.100.102" // for non-MuleSoft Standard DLB
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
-					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
-					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
+			http4RequestUrl = systemProperties.getSystemProxy(http4RequestUrl);
 		}
 		
 		// Call Mule API to get file in streaming
@@ -58,5 +54,7 @@ public class FileRoute extends RouteBuilder {
 				.to("file:output?fileName=${in.header.outputFile}&charset=utf-8")
 				.end();
 	}
+
+
 
 }

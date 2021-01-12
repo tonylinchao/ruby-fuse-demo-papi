@@ -2,6 +2,7 @@ package com.hkt.ruby.fuse.demo.route;
 
 import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
+import com.hkt.ruby.fuse.demo.properties.OnPremProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
 import com.hkt.ruby.fuse.demo.utils.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,17 +14,17 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component;
 
 /**
- * Test VPC
+ * Get ITAR digiSPACE app list
  *
  * @author Tony C Lin
  */
 @Slf4j
 @Component
-@EnableConfigurationProperties({MuleProperties.class, SystemProperties.class})
-public class VpcRoute extends RouteBuilder {
+@EnableConfigurationProperties({OnPremProperties.class, SystemProperties.class})
+public class ItarRoute extends RouteBuilder {
 
 	@Autowired
-	private MuleProperties muleProperties;
+	private OnPremProperties onPremProperties;
 
 	@Autowired
 	private SystemProperties systemProperties;
@@ -31,21 +32,20 @@ public class VpcRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		String https4RequestUrl = "https4:" + muleProperties.getApi().getTestVpc() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		String https4RequestUrl = "https4:" + onPremProperties.getApi().getItarDigispace() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 
-		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
-			https4RequestUrl = systemProperties.getSystemProxy(https4RequestUrl);
-		}
+//		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
+//			https4RequestUrl = systemProperties.getSystemProxy(https4RequestUrl);
+//		}
 		log.debug("Request URI: " + https4RequestUrl);
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
 		httpComponent.setSslContextParameters(CommonUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
 				systemProperties.getSsl().getTruststorePass()));
 		
-		// Call Mule Exchange mock REST API to get customer info
-		from("direct:vpc-test").routeId("direct-vpc-test")
+		// Get on-prem ITAR digiSPACE application list API
+		from("direct:itar-digispace").routeId("direct-itar-digispace")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-				.setHeader(Constants.HEADER_HOST, constant(muleProperties.getProxy()))
 				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.toD(https4RequestUrl)
 				.convertBodyTo(String.class)

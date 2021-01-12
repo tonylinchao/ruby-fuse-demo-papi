@@ -9,6 +9,10 @@ system:
     truststore-path: classpath:tls/truststores.ft-a.p12
     truststore-pass: changeit
 
+on-prem:
+  api:
+    itar-digispace: itar-sit-a.hkt.com/api/assets/digiSpace
+
 mule:
   api:
     # MuleSoft Mock Customer Rest API

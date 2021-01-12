@@ -41,4 +41,10 @@ public class SystemProperties {
         private int port;
         private String scheme;
     }
+
+    public String getSystemProxy (String https4RequestUrl) {
+        return https4RequestUrl + "&proxyAuthHost=" + appProxy.hostname
+                + "&proxyAuthPort=" + appProxy.port
+                + "&proxyAuthScheme=" + appProxy.scheme;
+    }
 }

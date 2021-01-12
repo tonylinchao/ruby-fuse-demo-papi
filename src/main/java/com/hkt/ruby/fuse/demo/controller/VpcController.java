@@ -24,7 +24,7 @@ public class VpcController {
     private FluentProducerTemplate fluentProducerTemplate;
 
     /**
-     * Test VPC
+     * Test VPC (TLS)
      */
     @GetMapping(path="/test")
     public R testVPC() {

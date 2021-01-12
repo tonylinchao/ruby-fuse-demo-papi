@@ -31,26 +31,17 @@ public class CustRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		String https4RequestUrlOfCustomers = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
-		String https4RequestUrlOfCustomerInfo = "https4:" + muleProperties.getApi().getCustomerInfo() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
-		String https4RequestUrlOfSalesforceContacts = "https4:" + muleProperties.getApi().getSalesforceContacts() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
-
+		String https4RequestUrlOfCustomers = "https4:" + muleProperties.getApi().getMockCustomers()
+				+ "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		String https4RequestUrlOfCustomerInfo = "https4:" + muleProperties.getApi().getCustomerInfo()
+				+ "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		String https4RequestUrlOfSalesforceContacts = "https4:" + muleProperties.getApi().getSalesforceContacts()
+				+ "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 
 		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
-			https4RequestUrlOfCustomers = https4RequestUrlOfCustomers
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
-					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
-					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
-
-			https4RequestUrlOfCustomerInfo = https4RequestUrlOfCustomerInfo
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
-					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
-					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
-
-			https4RequestUrlOfSalesforceContacts = https4RequestUrlOfSalesforceContacts
-					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
-					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
-					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
+			https4RequestUrlOfCustomers = systemProperties.getSystemProxy(https4RequestUrlOfCustomers);
+			https4RequestUrlOfCustomerInfo = systemProperties.getSystemProxy(https4RequestUrlOfCustomerInfo);
+			https4RequestUrlOfSalesforceContacts = systemProperties.getSystemProxy(https4RequestUrlOfSalesforceContacts);
 		}
 
 		// Default error handling

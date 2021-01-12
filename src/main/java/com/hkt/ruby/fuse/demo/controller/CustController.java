@@ -117,9 +117,8 @@ public class CustController {
 		return R.data(customerDetail);
 	}
 
-
 	/**
-	 * Get Salesforce contacts via Mule
+	 * Get Salesforce contacts via Mule (mTLS)
 	 */
 	@Operation(summary = "Salesforce contacts", description = "Get contacts from salesforce", tags = { "perftest" })
 	@GetMapping(path="/salesforce-contacts")
