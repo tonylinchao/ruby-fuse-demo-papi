@@ -33,15 +33,21 @@ public class CustRoute extends RouteBuilder {
 
 		String https4RequestUrlOfCustomers = "https4:" + muleProperties.getApi().getMockCustomers() + "${in.header.hkid}?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 		String https4RequestUrlOfCustomerInfo = "https4:" + muleProperties.getApi().getCustomerInfo() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+		String https4RequestUrlOfSalesforceContacts = "https4:" + muleProperties.getApi().getSalesforceContacts() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
+
 
 		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
 			https4RequestUrlOfCustomers = https4RequestUrlOfCustomers
-//					+ "&proxyAuthHost=" + "10.211.100.102" // for non-MuleSoft Standard DLB
 					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
 					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
 					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
 
 			https4RequestUrlOfCustomerInfo = https4RequestUrlOfCustomerInfo
+					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
+					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
+					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
+
+			https4RequestUrlOfSalesforceContacts = https4RequestUrlOfSalesforceContacts
 					+ "&proxyAuthHost=" + systemProperties.getAppProxy().getHostname()
 					+ "&proxyAuthPort=" + systemProperties.getAppProxy().getPort()
 					+ "&proxyAuthScheme=" + systemProperties.getAppProxy().getScheme();
@@ -68,10 +74,22 @@ public class CustRoute extends RouteBuilder {
 				.marshal().json()
 				.end();
 
+		// Call Mule API to get customer info
 		from("direct:customer-info").routeId("direct-customer-info")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.toD(https4RequestUrlOfCustomerInfo)
+				.convertBodyTo(String.class)
+				.log("${body}")
+				.marshal().json()
+				.end();
+
+
+		// Get Salesforce contacts via Mule
+		from("direct:salesforce-contacts").routeId("direct-salesforce-contacts")
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(https4RequestUrlOfSalesforceContacts)
 				.convertBodyTo(String.class)
 				.log("${body}")
 				.marshal().json()

@@ -31,7 +31,7 @@ public class FileController {
      * @param endpoint Endpoint Name
      * @param fileName File Name
      */
-    @GetMapping(path="/stream/{endpoint}", produces={"application/json"})
+    @GetMapping(path="/stream/{endpoint}")
     public R getStreamFile(@PathVariable(value="endpoint",required=true) String endpoint,
                            @RequestParam(value="fileName",required=false) String fileName,
                            @RequestParam(value="outputFile",required=false) String outputFile) {

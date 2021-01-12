@@ -7,6 +7,10 @@ system:
     truststore-path: classpath:tls/truststores.dev.p12
     truststore-pass: changeit
 
+on-prem:
+  api:
+    itar-digispace: itar-sit-a.hkt.com/api/assets/digiSpace
+
 mule:
   api:
     # MuleSoft Mock Customer Rest API
@@ -15,6 +19,7 @@ mule:
     file-stream: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
     test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
     customer-info: np1.muleamp.hkt.com/fst/a/com/customer-info/proc/api/v1/customer-info
+    salesforce-contacts: np1.muleamp.hkt.com/test-salesforce-contacts-ms-api-v1-fst-a/contacts
   proxy: np1.muleamp.hkt.com
 
 kafka:

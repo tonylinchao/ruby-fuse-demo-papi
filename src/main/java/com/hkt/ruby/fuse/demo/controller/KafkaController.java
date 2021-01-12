@@ -34,7 +34,7 @@ public class KafkaController {
      * @param topic Kafka topic
      * @param records Kafka event records.
      */
-    @PostMapping(path="/producer/topics/{topic}", produces={"application/json"})
+    @PostMapping(path="/producer/topics/{topic}")
     public R produceEvents(@PathVariable(value="topic",required=true) String topic,
                           @RequestBody EventRecords records) throws Exception {
 
@@ -56,7 +56,7 @@ public class KafkaController {
      * @param groupId Consumer group id
      * @param name Consumer instance name
      */
-    @GetMapping(path="/consumer/{groupid}/{name}", produces={"application/json"})
+    @GetMapping(path="/consumer/{groupid}/{name}")
     public R consumeEvents(@PathVariable(value="groupid",required=true) String groupId,
                            @PathVariable(value="name",required=true) String name) {
 
@@ -73,7 +73,7 @@ public class KafkaController {
     /**
      * Kafka consumer to call Strimzi Kafka bootstrap directly
      */
-    @GetMapping(path="/consumer", produces={"application/json"})
+    @GetMapping(path="/consumer")
     public R kafkaConsumer() {
 
         Exchange result = fluentProducerTemplate.to("direct:kafka-consumer").send();

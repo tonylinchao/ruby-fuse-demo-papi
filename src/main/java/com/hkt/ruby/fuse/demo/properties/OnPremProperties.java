@@ -7,28 +7,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
-/**
- * MuleSoft Properties
- *
- * @author Tony C Lin
- */
 @Data
 @Component
-@ConfigurationProperties(prefix = "mule")
-public class MuleProperties {
-
+@ConfigurationProperties(prefix = "on-prem")
+public class OnPremProperties {
     @NestedConfigurationProperty
     private API api;
-
-    private String proxy;
 
     @Getter
     @Setter
     public static class API {
-        private String mockCustomers;
-        private String fileStream;
-        private String testVpc;
-        private String customerInfo;
-        private String salesforceContacts;
+        private String itarDigispace;
     }
 }

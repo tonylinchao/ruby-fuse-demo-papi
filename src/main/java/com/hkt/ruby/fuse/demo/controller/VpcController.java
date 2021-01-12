@@ -26,7 +26,7 @@ public class VpcController {
     /**
      * Test VPC
      */
-    @GetMapping(path="/test", produces={"application/json"})
+    @GetMapping(path="/test")
     public R testVPC() {
 
         Exchange result = fluentProducerTemplate

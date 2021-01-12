@@ -1,0 +1,19 @@
+{
+  "hkid": "R12345678",
+  "lastName": "Chan",
+  "firstName": "John",
+  "email": "john.chan@hkt.com",
+  "phone": "+852 6688 1688",
+  "postalAddress": {
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "postalCode": "00000",
+    "street": "39 Queens Road Central"
+  },
+  "deliveryAddress": {
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "postalCode": "00000",
+    "street": "168 Lockhart Road"
+  }
+}
