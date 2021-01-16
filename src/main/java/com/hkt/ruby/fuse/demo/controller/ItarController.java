@@ -34,4 +34,17 @@ public class ItarController {
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
+
+    /**
+     * Get ITAR digiSPACE application list from Redis
+     */
+    @Operation(summary = "ITAR digiSPACE Application List from Redis", description = "Get ITAR digiSPACE application list from Redis", tags = { "itar" })
+    @GetMapping(path="/digispace-redis")
+    public R getDigiSpaceAppListByRedis() {
+
+        Exchange result = fluentProducerTemplate
+                .to("direct:itar-digispace-redis").send();
+
+        return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+    }
 }

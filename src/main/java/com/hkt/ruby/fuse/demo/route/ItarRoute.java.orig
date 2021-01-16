@@ -42,7 +42,14 @@ public class ItarRoute extends RouteBuilder {
 
 		String https4RequestUrl = "https4:" + onPremProperties.getApi().getItarDigispace() + "?bridgeEndpoint=true&throwExceptionOnFailure=false&connectTimeout=30000";
 
+<<<<<<< HEAD
+//		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
+//			https4RequestUrl = systemProperties.getSystemProxy(https4RequestUrl);
+//		}
+		log.debug("Request URI: " + https4RequestUrl);
+=======
 		log.error("Request URI: " + https4RequestUrl);
+>>>>>>> 3484b48... Add skip hostname checking and redis dependency
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
 		//ITAR hostname issue, skip hostname checking
@@ -52,13 +59,26 @@ public class ItarRoute extends RouteBuilder {
 		from("direct:itar-digispace").routeId("direct-itar-digispace")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
 				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-				.setHeader(Constants.ITAR_DIGISPACE_SECRET, constant(onPremProperties.getSecret().getItarDigispace()))
 				.toD(https4RequestUrl)
 				.convertBodyTo(String.class)
 				.marshal().json()
 				.log("${body}")
 				.end();
 
+<<<<<<< HEAD
+		from("direct:itar-digispace-redis").routeId("direct-itar-digispace-redis")
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.toD(https4RequestUrl)
+				.convertBodyTo(String.class)
+				.setHeader("CamelRedis.Command", constant("SET"))
+				.setHeader("CamelRedis.Key", constant("keyOne"))
+				.setHeader("CamelRedis.Value", constant("${body}"))
+				.to("spring-redis://192.168.1.1:6379?connectionFactory=#connectionFactory&serializer=#serializer")
+				.log("${body}")
+				.marshal().json()
+				.end();
+=======
 //		JedisConnectionFactory connectionFactory = new JedisConnectionFactory(); // 创建connectionFactory
 //		connectionFactory.setHostName("1simon-tls-redis-ruby-common-tools-sit.app3.osp.pccw.com");
 //		connectionFactory.setPort(6379);
@@ -81,6 +101,7 @@ public class ItarRoute extends RouteBuilder {
 //				.marshal().json()
 //				.end();
 
+>>>>>>> 3484b48... Add skip hostname checking and redis dependency
 	}
 
 

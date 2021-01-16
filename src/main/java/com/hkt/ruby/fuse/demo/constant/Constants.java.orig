@@ -47,9 +47,12 @@ public interface Constants {
      */
     String FT_A = "ft-a";
 
+<<<<<<< HEAD
+=======
     /**
      * X-3scale-proxy-secret-token for ITAR digispace
      */
     String ITAR_DIGISPACE_SECRET = "X-3scale-proxy-secret-token";
 
+>>>>>>> 3484b48... Add skip hostname checking and redis dependency
 }
