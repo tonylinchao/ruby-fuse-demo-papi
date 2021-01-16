@@ -59,27 +59,27 @@ public class ItarRoute extends RouteBuilder {
 				.log("${body}")
 				.end();
 
-//		JedisConnectionFactory connectionFactory = new JedisConnectionFactory(); // 创建connectionFactory
-//		connectionFactory.setHostName("1simon-tls-redis-ruby-common-tools-sit.app3.osp.pccw.com");
-//		connectionFactory.setPort(6379);
-//		connectionFactory.setDatabase(8);
-//		SimpleRegistry registry = new SimpleRegistry();
-//		connectionFactory.afterPropertiesSet(); // 必须要调用该方法来初始化connectionFactory
-//		registry.put("connectionFactory", connectionFactory); // 注册connectionFactory
-//		registry.put("serializer", new StringRedisSerializer()); // 注册serializer
+		JedisConnectionFactory connectionFactory = new JedisConnectionFactory(); // 创建connectionFactory
+		connectionFactory.setHostName("redis-ruby-fuse-uat.app3.osp.pccw.com");
+		connectionFactory.setPort(80);
+		connectionFactory.setDatabase(8);
+		SimpleRegistry registry = new SimpleRegistry();
+		connectionFactory.afterPropertiesSet(); // 必须要调用该方法来初始化connectionFactory
+		registry.put("connectionFactory", connectionFactory); // 注册connectionFactory
+		registry.put("serializer", new StringRedisSerializer()); // 注册serializer
 
-//		from("direct:itar-digispace-redis").routeId("direct-itar-digispace-redis")
-//				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-//				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
-//				.convertBodyTo(String.class)
-//				.setHeader("CamelRedis.Command", constant("SET"))
-//				.setHeader("CamelRedis.Key", constant("keyOne"))
-//				.setHeader("CamelRedis.Value", constant("hello"))
-//				//spring-redis://simon-tls-redis-ruby-common-tools-sit.app3.osp.pccw.com?connectionFactory=#connectionFactory&serializer=#serializer
-//				.to("spring-redis://simon-tls-redis-ruby-common-tools-sit.app3.osp.pccw.com")
-//				.log("${body}")
-//				.marshal().json()
-//				.end();
+		from("direct:itar-digispace-redis").routeId("direct-itar-digispace-redis")
+				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.setHeader(Exchange.CONTENT_TYPE, constant(Constants.HEADER_CONTENT_TYPE_JSON))
+				.convertBodyTo(String.class)
+				.setHeader("CamelRedis.Command", constant("SET"))
+				.setHeader("CamelRedis.Key", constant("keyOne"))
+				.setHeader("CamelRedis.Value", constant("hello"))
+				//spring-redis://simon-tls-redis-ruby-common-tools-sit.app3.osp.pccw.com?connectionFactory=#connectionFactory&serializer=#serializer
+				.to("spring-redis://redis-ruby-fuse-uat.app3.osp.pccw.com")
+				.log("${body}")
+				.marshal().json()
+				.end();
 
 	}
 
