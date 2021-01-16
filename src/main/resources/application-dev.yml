@@ -13,6 +13,8 @@ system:
 
 
 on-prem:
+  secret:
+    itar-digispace: Shared_secret_sent_from_proxy_to_API_backend_dcb39ec39352d34b
   api:
     itar-digispace: itar-sit-a.hkt.com/api/assets/digiSpace
 

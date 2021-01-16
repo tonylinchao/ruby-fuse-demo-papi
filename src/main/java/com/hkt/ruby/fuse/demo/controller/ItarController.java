@@ -23,11 +23,11 @@ public class ItarController {
     private FluentProducerTemplate fluentProducerTemplate;
 
     /**
-     * Get Salesforce contacts via Mule
+     * Get ITAR digiSPACE application list
      */
     @Operation(summary = "ITAR digiSPACE Application List", description = "Get ITAR digiSPACE application list", tags = { "itar" })
-    @GetMapping(path="/salesforce-contacts")
-    public R getdigiSpaceAppList() {
+    @GetMapping(path="/digispace")
+    public R getDigiSpaceAppList() {
 
         Exchange result = fluentProducerTemplate
                 .to("direct:itar-digispace").send();

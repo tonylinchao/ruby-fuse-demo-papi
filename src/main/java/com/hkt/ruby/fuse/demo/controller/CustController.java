@@ -55,6 +55,7 @@ public class CustController {
 			@ApiResponse(responseCode="400", description="Invalid HKID supplied", content=@Content),
 			@ApiResponse(responseCode="404", description="Customer not found", content=@Content)
 	})
+
 	@GetMapping(path="/{hkid}")
 	public R getCustomerByHKID(@Parameter(description = "HKID card number", required = true)
 							  @PathVariable(value="hkid",required=true) String hkid) {

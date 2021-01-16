@@ -14,9 +14,18 @@ public class OnPremProperties {
     @NestedConfigurationProperty
     private API api;
 
+    @NestedConfigurationProperty
+    private Secret secret;
+
     @Getter
     @Setter
     public static class API {
+        private String itarDigispace;
+    }
+
+    @Getter
+    @Setter
+    public static class Secret {
         private String itarDigispace;
     }
 }
