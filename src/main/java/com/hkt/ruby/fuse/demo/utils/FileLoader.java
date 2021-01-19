@@ -1,10 +1,7 @@
 package com.hkt.ruby.fuse.demo.utils;
 
-import com.hkt.ruby.fuse.demo.properties.OnPremProperties;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
@@ -15,32 +12,27 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Data
-@EnableConfigurationProperties({OnPremProperties.class})
 public class FileLoader {
 
-    @Autowired
-    private OnPremProperties onPremProperties;
-
-    private static FileLoader mFileLoader;
+    private static FileLoader mFileLoader = null;
 
     private String fileContent;
 
-    public static FileLoader getInstance(){
-
+    public static FileLoader getInstance(String filePath){
         if (mFileLoader == null){
             synchronized (FileLoader.class){
                 if(mFileLoader == null){
-                    mFileLoader = new FileLoader();
+                    mFileLoader = new FileLoader(filePath);
                 }
             }
         }
         return mFileLoader;
     }
 
-    private FileLoader() {
+    private FileLoader(String filePath) {
 
-        log.info("File path: " + onPremProperties.getFile().getLargeFile());
-        Resource resource = new ClassPathResource(onPremProperties.getFile().getLargeFile());
+        log.info("File path: " + filePath);
+        Resource resource = new ClassPathResource(filePath);
         fileContent = "";
 
         try {
@@ -51,7 +43,6 @@ public class FileLoader {
         } catch (IOException e) {
             log.error("IOException", e);
         }
-
     }
 
 }

@@ -4,6 +4,7 @@ import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
 import com.hkt.ruby.fuse.demo.properties.OnPremProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
+import com.hkt.ruby.fuse.demo.utils.FileLoader;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
@@ -11,14 +12,7 @@ import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileCopyUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Demo Component of Streaming File Transfer
@@ -73,19 +67,10 @@ public class FileRoute extends RouteBuilder {
 				.process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
-						log.info("File path: " + onPremProperties.getFile().getLargeFile());
-						Resource resource = new ClassPathResource(onPremProperties.getFile().getLargeFile());
-						InputStream inputStream = resource.getInputStream();
-						String data = "";
-						try {
-							byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
-							data = new String(bdata, StandardCharsets.UTF_8);
-							log.info("Retrieve data success!");
-						} catch (IOException e) {
-							log.error("IOException", e);
-						}
+						// Singleton mode to get file from local
+						FileLoader fileLoader = FileLoader.getInstance(onPremProperties.getFile().getLargeFile());
 						exchange.getIn().setHeader(Exchange.HTTP_RESPONSE_CODE, ResultCode.SUCCESS.getCode());
-						exchange.getIn().setBody(data);
+						exchange.getIn().setBody(fileLoader.getFileContent());
 					}
 				})
 				.convertBodyTo(String.class)
