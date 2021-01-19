@@ -2,6 +2,7 @@ package com.hkt.ruby.fuse.demo.controller;
 
 import com.hkt.ruby.fuse.demo.utils.R;
 import com.hkt.ruby.fuse.demo.utils.ResultCode;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
@@ -44,6 +45,20 @@ public class FileController {
                 .to("direct:file-stream").send();
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
+    }
+
+
+    /**
+     * Performance test of large file in response content (11MB)
+     */
+    @Operation(summary = "Performance test of large file in response content", description = "Large file transfer test", tags = { "perftest" })
+    @GetMapping(path="/large-file")
+    public R getLargeFile() {
+
+        Exchange result = fluentProducerTemplate
+                .to("direct:large-file").send();
+
+        return R.data(result, result.getOut().getBody(), ResultCode.SUCCESS.getMessage());
     }
 
 }

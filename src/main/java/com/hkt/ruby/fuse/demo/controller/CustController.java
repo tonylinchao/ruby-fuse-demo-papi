@@ -44,6 +44,15 @@ public class CustController {
 	}
 
 	/**
+	 * Post test
+	 *
+	 */
+	@PostMapping(path="/test")
+	public R testPost() {
+		return R.data(200, "Hello, post test success!");
+	}
+
+	/**
 	 * Get Customer Info by HKID
 	 *
 	 * @param hkid Customer HKID No.

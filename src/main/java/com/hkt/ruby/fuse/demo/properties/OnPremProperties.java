@@ -17,6 +17,9 @@ public class OnPremProperties {
     @NestedConfigurationProperty
     private Secret secret;
 
+    @NestedConfigurationProperty
+    private File file;
+
     @Getter
     @Setter
     public static class API {
@@ -27,5 +30,11 @@ public class OnPremProperties {
     @Setter
     public static class Secret {
         private String itarDigispace;
+    }
+
+    @Getter
+    @Setter
+    public static class File {
+        private String largeFile;
     }
 }

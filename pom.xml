@@ -102,13 +102,13 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Redis -->
+    <!-- Redis
     <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-spring-redis-starter</artifactId>
       <version>${camel-redis.version}</version>
     </dependency>
-
+    -->
   </dependencies>
   
   <repositories>

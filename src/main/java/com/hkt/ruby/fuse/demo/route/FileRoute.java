@@ -2,12 +2,23 @@ package com.hkt.ruby.fuse.demo.route;
 
 import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
+import com.hkt.ruby.fuse.demo.properties.OnPremProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
+import com.hkt.ruby.fuse.demo.utils.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Demo Component of Streaming File Transfer
@@ -16,7 +27,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@EnableConfigurationProperties({MuleProperties.class, SystemProperties.class})
+@EnableConfigurationProperties({MuleProperties.class, SystemProperties.class, OnPremProperties.class})
 public class FileRoute extends RouteBuilder {
 
 	@Autowired
@@ -24,6 +35,9 @@ public class FileRoute extends RouteBuilder {
 
 	@Autowired
 	private SystemProperties systemProperties;
+
+	@Autowired
+	private OnPremProperties onPremProperties;
 
 	@Override
 	public void configure() throws Exception {
@@ -53,6 +67,32 @@ public class FileRoute extends RouteBuilder {
 		from("direct:file-save").routeId("direct-file-save")
 				.to("file:output?fileName=${in.header.outputFile}&charset=utf-8")
 				.end();
+
+		// Test large file tranfer
+		from("direct:large-file").routeId("direct-large-file")
+				.process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						log.info("File path: " + onPremProperties.getFile().getLargeFile());
+						Resource resource = new ClassPathResource(onPremProperties.getFile().getLargeFile());
+						InputStream inputStream = resource.getInputStream();
+						String data = "";
+						try {
+							byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
+							data = new String(bdata, StandardCharsets.UTF_8);
+							log.info("Retrieve data success!");
+						} catch (IOException e) {
+							log.error("IOException", e);
+						}
+						exchange.getIn().setHeader(Exchange.HTTP_RESPONSE_CODE, ResultCode.SUCCESS.getCode());
+						exchange.getIn().setBody(data);
+					}
+				})
+				.convertBodyTo(String.class)
+				.log("${body}")
+				.marshal().json()
+				.end();
+
 	}
 
 

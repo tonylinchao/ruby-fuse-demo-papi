@@ -47,4 +47,5 @@ public class ItarController {
 
         return R.data(result, result.getIn().getBody(), ResultCode.SUCCESS.getMessage());
     }
+
 }

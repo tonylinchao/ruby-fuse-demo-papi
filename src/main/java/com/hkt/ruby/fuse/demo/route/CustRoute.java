@@ -75,7 +75,6 @@ public class CustRoute extends RouteBuilder {
 				.marshal().json()
 				.end();
 
-
 		// Get Salesforce contacts via Mule
 		from("direct:salesforce-contacts").routeId("direct-salesforce-contacts")
 				.setHeader(Constants.HEADER_ACCEPT, constant(Constants.HEADER_CONTENT_TYPE_JSON))

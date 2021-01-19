@@ -3,7 +3,7 @@ package com.hkt.ruby.fuse.demo.route;
 import com.hkt.ruby.fuse.demo.properties.KafkaProperties;
 import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
-import com.hkt.ruby.fuse.demo.utils.CommonUtils;
+import com.hkt.ruby.fuse.demo.utils.SSLUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -28,7 +28,7 @@ public class KafkaRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-        httpComponent.setSslContextParameters(CommonUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
+        httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
                 systemProperties.getSsl().getTruststorePass()));
 
         // Publish events via Kafka Bridge
