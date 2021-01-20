@@ -19,7 +19,7 @@ on-prem:
   api:
     itar-digispace: itar-sit-a.hkt.com/api/assets/digiSpace
   file:
-    large-file: classpath:examples/large-json-content-example-response.json
+    large-file: examples/large-json-content-example-response.json
 
 mule:
   api:
@@ -34,7 +34,8 @@ mule:
 
 kafka:
   bridge:
-    base-url: msghub-bridge-ft-a.hkt.com
+    base-url: 10.168.104.4:443
+    hostname:
     subscribe-timeout: 3000
     subscribe-maxBytes: 1024
   bootstrap:
@@ -44,8 +45,8 @@ kafka:
     truststore-pass: password
     protocol: SSL
   gateway:
-    hostname: msghub-bridge-ft-a.hkt.com #p2.uamp.hkt.com
-    apikey: 89c580cd88505a4940e30d4ea495c7d8
+    hostname: ns3.uamp.hkt.com:443 #p2.uamp.hkt.com
+    apikey: ddd248e757b0b23eeeb059025b48bb95'
   topic:
     name: ruby-topic
     partition: 0

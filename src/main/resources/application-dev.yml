@@ -18,7 +18,7 @@ on-prem:
   api:
     itar-digispace: itar-sit-a.hkt.com/api/assets/digiSpace
   file:
-    large-file: examples/customer-info-example-response.json
+    large-file: examples/large-json-content-example-response.json
 
 mule:
   api:

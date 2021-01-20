@@ -28,13 +28,13 @@ public class KafkaRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-        httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
-                systemProperties.getSsl().getTruststorePass()));
+        // skip hostname checking
+        httpComponent = SSLUtils.skipHostnameCheck(httpComponent);
 
         // Publish events via Kafka Bridge
         from("direct:produce-events").routeId("direct-produce-events")
-                .setHeader(Exchange.CONTENT_TYPE, constant(Constants.KAFKA_PRODUCER_CONTENT_TYPE_JSON))
                 .setHeader(Exchange.HTTP_METHOD, constant(HttpMethods.POST))
+                .setHeader(Exchange.CONTENT_TYPE, constant(Constants.KAFKA_PRODUCER_CONTENT_TYPE_JSON))
                 .setHeader(Constants.HEADER_ACCEPT, constant(Constants.KAFKA_CONSUMER_CONTENT_TYPE_JSON))
                 .setHeader(Constants.GATEWAY_API_KEY, constant(kafkaProperties.getGateway().getApiKey()))
                 .setHeader(Constants.HEADER_HOST, constant(kafkaProperties.getGateway().getHostname()))
@@ -54,9 +54,7 @@ public class KafkaRoute extends RouteBuilder {
                 .setHeader(Constants.GATEWAY_API_KEY, constant(kafkaProperties.getGateway().getApiKey()))
                 .setHeader(Constants.HEADER_HOST, constant(kafkaProperties.getGateway().getHostname()))
                 .toD("https4:" + kafkaProperties.getBridge().getBaseUrl() + "/consumers/${in.header.groupid}/instances/${in.header.name}/records"
-                        + "?timeout" + kafkaProperties.getBridge().getSubscribeTimeout()
-                        + "&max_bytes" + kafkaProperties.getBridge().getSubscribeMaxBytes()
-                        + "&bridgeEndpoint=true"
+                        + "?bridgeEndpoint=true"
                         + "&throwExceptionOnFailure=false"
                         + "&connectTimeout=30000")
                 .convertBodyTo(String.class)
