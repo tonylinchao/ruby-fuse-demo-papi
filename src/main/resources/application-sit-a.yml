@@ -6,6 +6,8 @@ system:
     # proxy scheme type
     scheme: http
   ssl:
+    keystore-path: classpath:tls/mule_xyz_pkcs12.pks.jks
+    keystore-pass: hktruby
     truststore-path: classpath:tls/truststores.ft-a.p12
     truststore-pass: changeit
   redis:

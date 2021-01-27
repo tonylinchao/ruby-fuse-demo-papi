@@ -47,12 +47,13 @@ public class FileRoute extends RouteBuilder {
 
 		if(!Constants.DEV.equals(systemProperties.getActiveEnv())){
 			http4RequestUrlOfFileStream = systemProperties.getSystemProxy(http4RequestUrlOfFileStream);
-			https4RequestUrlOfSalesfoceObject = systemProperties.getSystemProxy(https4RequestUrlOfSalesfoceObject);
+			//https4RequestUrlOfSalesfoceObject = systemProperties.getSystemProxy(https4RequestUrlOfSalesfoceObject);
 		}
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-		httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
-				systemProperties.getSsl().getTruststorePass()));
+		httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(
+				systemProperties.getSsl().getKeystorePath(),systemProperties.getSsl().getKeystorePass(),
+				systemProperties.getSsl().getTruststorePath(), systemProperties.getSsl().getTruststorePass()));
 		httpComponent.setX509HostnameVerifier(new AllowAllHostnameVerifier());
 
 		// Call Mule API to get file in streaming

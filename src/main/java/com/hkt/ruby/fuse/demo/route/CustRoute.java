@@ -48,9 +48,11 @@ public class CustRoute extends RouteBuilder {
 		}
 
 		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
-		httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
+		httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getKeystorePath(),
+				systemProperties.getSsl().getKeystorePass(),systemProperties.getSsl().getTruststorePath(),
 				systemProperties.getSsl().getTruststorePass()));
 		httpComponent.setX509HostnameVerifier(new AllowAllHostnameVerifier());
+
 
 		// Default error handling
 		onException(Exception.class)

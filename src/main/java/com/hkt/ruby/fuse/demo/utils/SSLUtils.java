@@ -25,24 +25,31 @@ import java.security.cert.X509Certificate;
 @Component
 public class SSLUtils {
 
-    public static SSLContextParameters sslContextParameters(String keystorePath, String keystorePass) {
+    public static SSLContextParameters sslContextParameters(String keystorePath, String keystorePass, String truststorePath, String truststorePass) {
 
-        KeyStoreParameters store = new KeyStoreParameters();
-        store.setResource(keystorePath);
-        store.setPassword(keystorePass);
+        KeyStoreParameters keyParams = new KeyStoreParameters();
+        keyParams.setResource(keystorePath);
+        keyParams.setPassword(keystorePass);
 
-        KeyManagersParameters key = new KeyManagersParameters();
-        key.setKeyPassword("");
-        key.setKeyStore(store);
+        KeyManagersParameters keystore = new KeyManagersParameters();
+        keystore.setKeyStore(keyParams);
 
-        TrustManagersParameters trust = new TrustManagersParameters();
-        trust.setKeyStore(store);
+        KeyStoreParameters trustParams = new KeyStoreParameters();
+        trustParams.setResource(truststorePath);
+        trustParams.setPassword(truststorePass);
+
+        TrustManagersParameters truststore = new TrustManagersParameters();
+        truststore.setKeyStore(trustParams);
 
         SSLContextParameters parameters = new SSLContextParameters();
-        parameters.setTrustManagers(trust);
-        parameters.setKeyManagers(key);
+        parameters.setTrustManagers(truststore);
+        parameters.setKeyManagers(keystore);
 
         return parameters;
+    }
+
+    public static SSLContextParameters sslContextParameters(String keystorePath, String keystorePass) {
+        return sslContextParameters(keystorePath, keystorePass, null, null);
     }
 
     public static HttpComponent skipHostnameCheck(HttpComponent httpComponent) {

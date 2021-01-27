@@ -33,6 +33,8 @@ public class SystemProperties {
     @Getter
     @Setter
     public static class SSL {
+        private String keystorePath;
+        private String keystorePass;
         private String truststorePath;
         private String truststorePass;
     }

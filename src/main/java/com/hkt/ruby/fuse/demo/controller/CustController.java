@@ -18,6 +18,9 @@ import org.apache.camel.FluentProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -97,6 +100,7 @@ public class CustController {
 	@GetMapping(path="/John/detail")
 	public R<CustomerDetail> getCustomerDetail() {
 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.CHINA);
 		DeliveryAddress deliveryAddress = new DeliveryAddress();
 		deliveryAddress.setCity("Hong Kong");
 		deliveryAddress.setCountry("China");
@@ -117,6 +121,7 @@ public class CustController {
 		customerDetail.setPhone("+852 6688 1688");
 		customerDetail.setDeliveryAddress(deliveryAddress);
 		customerDetail.setPostalAddress(postalAddress);
+		customerDetail.setRequestDate(df.format(new Date()));
 
 		try {
 			TimeUnit.SECONDS.sleep(1); // sleep 1s

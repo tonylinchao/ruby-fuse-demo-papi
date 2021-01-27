@@ -6,8 +6,10 @@ system:
     # proxy scheme type
     scheme: http
   ssl:
-    keystore-path: classpath:tls/truststores.ft-a.p12
-    keystore-pass: changeit
+    keystore-path: classpath:tls/mule_xyz_pkcs12.pks.jks
+    keystore-pass: hktruby
+    truststore-path: classpath:tls/truststores.ft-a.p12
+    truststore-pass: changeit
   redis:
     hostname: 127.0.0.1
     port: 6379

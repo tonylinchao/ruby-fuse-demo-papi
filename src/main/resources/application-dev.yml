@@ -4,6 +4,8 @@ system:
     port: 8080
     scheme: http
   ssl:
+    keystore-path: classpath:tls/mule_xyz_pkcs12.pks.jks
+    keystore-pass: hktruby
     truststore-path: classpath:tls/truststores.dev.p12
     truststore-pass: changeit
   redis:

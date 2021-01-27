@@ -2,6 +2,8 @@ package com.hkt.ruby.fuse.demo.model;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class CustomerDetail {
     private String hkid;
@@ -11,4 +13,5 @@ public class CustomerDetail {
     private String phone;
     private PostalAddress postalAddress;
     private DeliveryAddress deliveryAddress;
+    private String requestDate;
 }
