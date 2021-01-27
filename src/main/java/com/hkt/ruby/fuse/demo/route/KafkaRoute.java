@@ -76,6 +76,16 @@ public class KafkaRoute extends RouteBuilder {
                 .marshal().json()
                 .end();
 
+
+//        from("timer://foo?period=1000")
+//                .routeId("Producer Route")
+//                .setBody(simple("Hi, this is Camel-Strimzi example from ft-a environment"))
+//                .to("kafka:ruby-topic");
+//
+//        from("kafka:ruby-topic")
+//                .routeId("Consumer Route")
+//                .log("${body}");
+
     }
 
 }

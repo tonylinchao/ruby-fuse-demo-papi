@@ -3,11 +3,14 @@ package com.hkt.ruby.fuse.demo.route;
 import com.hkt.ruby.fuse.demo.constant.Constants;
 import com.hkt.ruby.fuse.demo.properties.MuleProperties;
 import com.hkt.ruby.fuse.demo.properties.SystemProperties;
+import com.hkt.ruby.fuse.demo.utils.SSLUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.http4.HttpComponent;
 import org.apache.camel.http.common.HttpOperationFailedException;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -43,6 +46,11 @@ public class CustRoute extends RouteBuilder {
 			https4RequestUrlOfCustomerInfo = systemProperties.getSystemProxy(https4RequestUrlOfCustomerInfo);
 			https4RequestUrlOfSalesforceContacts = systemProperties.getSystemProxy(https4RequestUrlOfSalesforceContacts);
 		}
+
+		HttpComponent httpComponent = getContext().getComponent("https4", HttpComponent.class);
+		httpComponent.setSslContextParameters(SSLUtils.sslContextParameters(systemProperties.getSsl().getTruststorePath(),
+				systemProperties.getSsl().getTruststorePass()));
+		httpComponent.setX509HostnameVerifier(new AllowAllHostnameVerifier());
 
 		// Default error handling
 		onException(Exception.class)

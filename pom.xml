@@ -10,7 +10,7 @@
   <properties>
     <fuse.version>7.5.0.fuse-750029-redhat-00002</fuse.version>
     <camel.version>2.21.0.fuse-750029</camel.version>
-    <kafka.version>2.23.2.fuse-750029-redhat-00001</kafka.version>
+    <kafka.version>2.21.0.fuse-750033-redhat-00001</kafka.version>
     <json-schema-validator.version>2.21.0.fuse-760027-redhat-00001</json-schema-validator.version>
     <camel-test-spring.version>2.21.0.fuse-750033-redhat-00001</camel-test-spring.version>
     <camel-redis.version>2.21.0.fuse-750033-redhat-00001</camel-redis.version>
@@ -52,7 +52,7 @@
 	</dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
-      <artifactId>camel-kafka</artifactId>
+      <artifactId>camel-kafka-starter</artifactId>
       <version>${kafka.version}</version>
     </dependency>
     <dependency>

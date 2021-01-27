@@ -26,10 +26,11 @@ mule:
     mock-customers: anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/c484da51-46e6-4745-8e69-ff960eff55a2/sample-customer-process-api/1.0.0/m/customers/
     # MuleSoft File Streaming API
     file-stream: hkt-file-transfer-test-20201029.jp-e1.cloudhub.io/
-    test-vpc: np1.muleamp.hkt.com/test-vpc-8091-kaxnn/test-vpc
-    customer-info: np1.muleamp.hkt.com/fst/a/com/customer-info/proc/api/v1/customer-info
-    salesforce-contacts: np1.muleamp.hkt.com/test-salesforce-contacts-ms-api-v1-fst-a/contacts
-  proxy: np1.muleamp.hkt.com
+    salesforce-object: hktmule.prototyped.xyz/demo-sfdc-big-payload-ms-api-v1-fst-a/opportunities?record_count=47500
+    test-vpc: hktmule.prototyped.xyz/test-vpc-8091-kaxnn/test-vpc
+    customer-info: hktmule.prototyped.xyz/fst/a/com/customer-info/proc/api/v1/customer-info
+    salesforce-contacts: hktmule.prototyped.xyz/test-salesforce-contacts-ms-api-v1-fst-a/contacts
+  proxy: hktmule.prototyped.xyz
 
 kafka:
   bridge:

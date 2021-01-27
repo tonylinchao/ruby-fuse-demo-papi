@@ -61,4 +61,18 @@ public class FileController {
         return R.data(result, result.getOut().getBody(), ResultCode.SUCCESS.getMessage());
     }
 
+    /**
+     * Performance test of Salesfroce Object 15MB
+     */
+    @Operation(summary = "Get Salesfroce Object 15MB", description = "Get Salesfroce Object 15MB", tags = { "perftest" })
+    @GetMapping(path="/salesforce-object")
+    public R getSalesforceObject() {
+
+        Exchange result = fluentProducerTemplate
+                .to("direct:salesforce-object").send();
+
+        return R.data(result, result.getOut().getBody(), ResultCode.SUCCESS.getMessage());
+    }
+
+
 }

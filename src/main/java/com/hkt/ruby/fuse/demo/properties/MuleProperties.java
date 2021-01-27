@@ -27,6 +27,7 @@ public class MuleProperties {
     public static class API {
         private String mockCustomers;
         private String fileStream;
+        private String salesforceObject;
         private String testVpc;
         private String customerInfo;
         private String salesforceContacts;
